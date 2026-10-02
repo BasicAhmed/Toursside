@@ -5,6 +5,9 @@ import Explorer from "@/components/Explorer";
 import Journey from "@/components/Journey";
 import Pricing from "@/components/Pricing";
 import Plane from "@/components/Plane";
+import HeroVideo from "@/components/HeroVideo";
+import CountUp from "@/components/CountUp";
+import StickyCta from "@/components/StickyCta";
 import { SITE, PLANS } from "@/lib/site";
 
 const SOURCES: [string, string, boolean][] = [
@@ -38,8 +41,9 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="hero">
-        <div className="wrap hero-grid">
+        <div className="wrap">
           <div className="hero-copy">
+            <p className="trust-pill"><i aria-hidden="true" />Trusted by 40+ travel agents</p>
             <h1>The operating system <span className="l2">behind your travel business.</span></h1>
             <p className="lede">Toursside is software for travel agencies and tour operators. Manage bookings, customers, itineraries, invoices, payments and partner requests in one connected system, instead of five separate tools.</p>
             <div className="cta-row">
@@ -49,26 +53,19 @@ export default function Home() {
             <p className="hero-note">Starting from ${PLANS.monthly.price} per month. Works on desktop and phone.</p>
           </div>
           <div className="hero-stage">
-            <svg className="hero-route" viewBox="0 0 600 300" aria-hidden="true"><path d="M10 290C120 290 150 170 250 170S380 240 450 150 520 40 590 20" /></svg>
             <Plane className="hero-plane" />
-            <div className="shot hero-desk">
-              <Image src="/shots/orders-full.webp" alt="The Toursside staff panel: an orders list with eight orders from WhatsApp, the website, phone, email and Viator, each showing travel date, amount paid and the next action" width={1800} height={1125} priority sizes="(min-width: 980px) 760px, 100vw" />
-            </div>
-            <div className="hero-phone">
-              <Image src="/shots/m-order.webp" alt="The same order opened on a phone, showing amount paid, balance left and the next step" width={600} height={1298} priority sizes="(min-width: 980px) 210px, 28vw" />
-            </div>
+            <div className="hero-frame"><HeroVideo /></div>
           </div>
         </div>
       </section>
 
       <section className="facts" aria-label="Toursside in numbers">
         <div className="wrap">
-          <p className="facts-lead">Built for travel agencies and tour operators, and already running a working tour operator's bookings.</p>
           <div className="facts-in">
-            <div className="fact"><b>5</b><span>booking channels in one orders list</span></div>
-            <div className="fact"><b>12</b><span>currencies for prices, payments and invoices</span></div>
-            <div className="fact"><b>10</b><span>kinds of service you can arrange for partner companies</span></div>
-            <div className="fact"><b>5</b><span>staff roles, from owner to operations</span></div>
+            <div className="fact"><b><CountUp to={40} suffix="+" /></b><span>travel agents trust Toursside with their bookings</span></div>
+            <div className="fact"><b><CountUp to={5} /></b><span>booking channels in one orders list</span></div>
+            <div className="fact"><b><CountUp to={12} /></b><span>currencies for prices, payments and invoices</span></div>
+            <div className="fact"><b><CountUp to={10} /></b><span>kinds of service you can arrange for partner companies</span></div>
           </div>
         </div>
       </section>
@@ -195,6 +192,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <StickyCta />
     </>
   );
 }

@@ -4,6 +4,7 @@ export const SITE = {
   description:
     "Toursside is travel agency and tour operator software that keeps bookings, customers, itineraries, invoices, payments and partner requests in one connected system.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://toursside.com").replace(/\/$/, ""),
+  trustedBy: "Trusted by 40+ travel agents",
   whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "97451131080").replace(/\D/g, ""),
   builder: { name: "Nino Techy" },
 };
