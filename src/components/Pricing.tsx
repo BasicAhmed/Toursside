@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PLANS, PLAN_IDS, MAIN_PLAN, perOf, type Billing } from "@/lib/site";
 import { CURRENCIES, CURRENCY_CODES, money, moneyYear, rateNote, type CurrencyCode } from "@/lib/currency";
 
-export default function Pricing({ currency: initial = "USD" }: { currency?: CurrencyCode }) {
+export default function Pricing({ currency: initial = "USD", card = false }: { currency?: CurrencyCode; card?: boolean }) {
   const [billing, setBilling] = useState<Billing>("monthly");
   const [cur, setCur] = useState<CurrencyCode>(initial);
   return (
@@ -38,6 +38,7 @@ export default function Pricing({ currency: initial = "USD" }: { currency?: Curr
         })}
       </div>
       {cur !== "USD" ? <p className="rate-note">{rateNote(cur)}</p> : null}
+      {card ? <p className="rate-note">Pay by card on a secure page run by Stripe. {cur !== "USD" ? "Your card is charged in US dollars. " : ""}Cancel any time.</p> : null}
       <div className="enterprise">
         <div>
           <h3>Enterprise</h3>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import SubscribeFlow from "@/components/SubscribeFlow";
 import { visitorCurrency } from "@/lib/visitor";
-import { instantEnabled } from "@/lib/instant";
+import { instantEnabled, cardPayments } from "@/lib/instant";
 import { PLANS, MAIN_PLAN, type PlanId, type Billing } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Subscribe", description: "Start a Toursside subscription. Choose Starter, Growth or Business and tell us about your travel business.", alternates: { canonical: "/subscribe" } };
@@ -10,6 +10,7 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
   const { plan, billing, currency } = await searchParams;
   const cur = await visitorCurrency(currency);
   const instant = instantEnabled();
+  const card = instant && (await cardPayments());
   const initial: PlanId = plan && plan in PLANS ? (plan as PlanId) : MAIN_PLAN;
   const initialBilling: Billing = billing === "monthly" ? "monthly" : "annual";
   return (
@@ -19,10 +20,14 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
         <p className="lede">Three short steps. You are not charged on this page.</p>
       </div>
       <div className="form-grid">
-        <SubscribeFlow initialPlan={initial} initialBilling={initialBilling} currency={cur} instant={instant} />
+        <SubscribeFlow initialPlan={initial} initialBilling={initialBilling} currency={cur} instant={instant} card={card} />
         <aside className="aside">
           <h2>What happens next</h2>
-          {instant ? <ol>
+          {instant && card ? <ol>
+            <li><b>Your workspace opens</b><span>Created in seconds with your company name, ready to use.</span></li>
+            <li><b>You pay by card</b><span>On a secure payment page run by Stripe. Plans are charged in US dollars.</span></li>
+            <li><b>Your plan starts</b><span>As soon as the payment goes through. Cancel any time from your workspace.</span></li>
+          </ol> : instant ? <ol>
             <li><b>Your workspace opens</b><span>Created in seconds with your company name, ready to use.</span></li>
             <li><b>You see how to pay</b><span>The amount for your plan and the payment details, on one page.</span></li>
             <li><b>Your plan starts</b><span>As soon as we confirm the payment. Nothing you add in the meantime is lost.</span></li>

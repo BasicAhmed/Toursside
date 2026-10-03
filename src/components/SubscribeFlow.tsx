@@ -11,11 +11,12 @@ import { money, moneyYear, rateNote, type CurrencyCode } from "@/lib/currency";
 const STEPS = ["Plan", "Your business", "Review and send"];
 const TEAM = ["Just me", "2 to 5", "6 to 15", "16 to 50", "More than 50"];
 
-export default function SubscribeFlow({ initialPlan, initialBilling, currency = "USD", instant = false }: { initialPlan: PlanId; initialBilling: Billing; currency?: CurrencyCode; instant?: boolean }) {
+export default function SubscribeFlow({ initialPlan, initialBilling, currency = "USD", instant = false, card = false }: { initialPlan: PlanId; initialBilling: Billing; currency?: CurrencyCode; instant?: boolean; card?: boolean }) {
   const r = useRequest("subscribe", { plan: initialPlan, billing: initialBilling, currency, company: "", name: "", email: "", phone: "", country: "", team: "", website: "", notes: "" });
   const [step, setStep] = useState(0);
   const [password, setPassword] = useState(""); const [pwErr, setPwErr] = useState(""); const [creating, setCreating] = useState<"" | "busy" | "open">(""); const [createErr, setCreateErr] = useState(""); const [openUrl, setOpenUrl] = useState("");
-  // With instant workspaces on: create the company's workspace now, with the plan attached, and open it on "how to pay".
+  // With instant workspaces on: create the company's workspace now, with the plan attached. It opens on "how to pay",
+  // or, when the product takes cards (card), on Stripe's payment page for that plan.
   const create = async () => {
     setCreating("busy"); setCreateErr("");
     try {
@@ -32,7 +33,7 @@ export default function SubscribeFlow({ initialPlan, initialBilling, currency = 
   useEffect(() => { document.getElementById(r.status === "sent" || r.status === "whatsapp" ? "result" : "step-title")?.focus(); }, [step, r.status]);
 
   if (creating === "open") return (
-    <div className="panel result" role="status"><h2>Your workspace is ready</h2><p>Opening {v.company.trim()} now, on the page that shows how to pay for your plan.</p></div>
+    <div className="panel result" role="status"><h2>Your workspace is ready</h2><p>{card ? `Opening the secure payment page for ${v.company.trim()} now.` : `Opening ${v.company.trim()} now, on the page that shows how to pay for your plan.`}</p></div>
   );
   if (r.status === "sent") return (
     <Sent title="Subscription request sent">
@@ -111,7 +112,9 @@ export default function SubscribeFlow({ initialPlan, initialBilling, currency = 
             <div><dt>Country</dt><dd>{v.country}</dd></div>
           </dl>
           {currency !== "USD" ? <p className="rate-note" style={{ margin: "0 0 12px" }}>{rateNote(currency)}</p> : null}
-          {instant
+          {instant && card
+            ? <p className="notice">You are not charged on this page. Your workspace is created straight away, then a secure payment page opens to pay for your plan by card. Payment is handled by Stripe{currency !== "USD" ? `, and your card is charged in US dollars: $${priceOf(v.plan as PlanId, v.billing as Billing).toLocaleString("en-US")} per ${perOf(v.billing as Billing)}` : ""}. Cancel any time.</p>
+            : instant
             ? <p className="notice">You are not charged now. Your workspace is created straight away and opens on a page that shows how to pay. Your plan starts when the payment is confirmed, and you can use the workspace in the meantime.</p>
             : <p className="notice">Card payment on this page is not open yet. Sending this order does not charge you. We reply with an invoice for the plan you chose, and your workspace is set up once it is paid.</p>}
           {createErr ? <p className="notice" role="alert">{createErr}</p> : null}

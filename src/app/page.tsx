@@ -9,7 +9,7 @@ import HeroVideo from "@/components/HeroVideo";
 import CountUp from "@/components/CountUp";
 import StickyCta from "@/components/StickyCta";
 import { SITE, PLANS, PLAN_IDS, whatsappLink } from "@/lib/site";
-import { instantEnabled } from "@/lib/instant";
+import { instantEnabled, cardPayments } from "@/lib/instant";
 import { visitorCurrency } from "@/lib/visitor";
 import { money } from "@/lib/currency";
 import { Faqs, faqLd } from "@/components/SeoPage";
@@ -184,7 +184,7 @@ export default async function Home() {
             <h2>Pick the plan that fits your agency.</h2>
             <p className="lede">Growth is the complete platform and the plan we recommend. Pay yearly and get two months free.</p>
           </div>
-          <Pricing currency={cur} />
+          <Pricing currency={cur} card={instant && (await cardPayments())} />
         </div>
       </section>
 

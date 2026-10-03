@@ -13,7 +13,7 @@ export default function Terms() {
         <h2>Prices</h2>
         <p>Prices are set in US dollars, per company, for the Starter, Growth and Business plans, and may be shown in your local currency. Gulf currencies use their fixed rate to the dollar; other currencies are shown at an approximate rate and your invoice confirms the exact amount. Annual billing costs the same as ten months. Enterprise pricing is agreed with each customer. We confirm your plan and price in writing before you pay.</p>
         <h2>Subscribing</h2>
-        <p>Sending a subscription request does not charge you and is not yet a contract. A subscription begins when you pay the invoice we send. It then runs for the period you chose, monthly or annual, and renews when the next invoice is paid.</p>
+        <p>A subscription begins when your first payment is received. Where card payment is offered, you pay by card on a secure page run by Stripe, you are charged in US dollars, and the subscription renews automatically each month or year until you cancel; you can cancel at any time from your workspace and keep access until the end of the period you paid for. Toursside never sees or stores your card details. Where card payment is not offered, sending a subscription request does not charge you; the subscription begins when you pay the invoice we send and renews when the next invoice is paid.</p>
         <h2>Your data</h2>
         <p>Each customer has a separate workspace and database. The bookings, customers and documents you put in your workspace remain yours. If you stop using Toursside you can ask for an export of your data.</p>
         <h2>Fair use</h2>
