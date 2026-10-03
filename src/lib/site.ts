@@ -15,19 +15,19 @@ export const PLANS = {
   starter: {
     name: "Starter", monthly: 39, annual: 390, target: "Small agencies and new operators",
     intro: "The essentials, with smaller limits.",
-    features: ["Bookings and customer CRM", "2 users", "Limited monthly bookings", "Invoices and documents", "Mobile access"],
-    without: ["No advanced integrations"],
+    features: ["Orders, customers and inquiries", "Tours and itineraries", "Invoices and documents", "2 staff accounts", "Mobile access"],
+    without: ["No partner requests, finance or reports", "No tours on your own website"],
   },
   growth: {
     name: "Growth", monthly: 79, annual: 790, target: "Serious travel agencies",
     intro: "The complete platform.",
-    features: ["Unlimited bookings", "Customer CRM", "Tours and products", "Suppliers and service costs", "Corporate requests", "Payments", "Invoices and documents", "Booking-source management", "Admin dashboard", "Mobile access", "Notifications", "Basic reporting"],
+    features: ["Unlimited bookings", "Customer CRM", "Tours and products", "Suppliers and service costs", "Corporate requests", "Payments", "Invoices and documents", "Booking-source management", "Finance and reports", "Reviews and referrals", "Tours on your own website", "Notifications", "5 staff accounts"],
     without: [],
   },
   business: {
     name: "Business", monthly: 149, annual: 1490, target: "Larger agencies and DMCs",
     intro: "Everything in Growth, plus:",
-    features: ["More users", "Higher or unlimited operational limits", "Advanced reporting", "Advanced integrations", "Priority support", "AI features as they become available"],
+    features: ["15 staff accounts", "Higher or unlimited operational limits", "Advanced reporting", "Advanced integrations", "Priority support", "AI features as they become available"],
     without: [],
   },
 } as const;

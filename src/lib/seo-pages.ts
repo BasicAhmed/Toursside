@@ -127,7 +127,7 @@ export const REGIONS: Region[] = [
 export const HOME_FAQS: Faq[] = [
   { q: "What is Toursside?", a: "Toursside is tour operator and travel agency software. It keeps bookings, customers, itineraries, invoices, payments and partner requests in one connected system." },
   { q: "Who is it for?", a: "Tour operators, travel agencies and destination management companies of any size, from a new operator to a larger agency with several staff." },
-  { q: "Can I use it with my existing website?", a: "Yes. You can show your tours on your own website with one line of code, or link a Book now button to a tour's booking page. Toursside also gives you booking pages of its own." },
+  { q: "Can I use it with my existing website?", a: "Yes. On the Growth plan and above you can show your tours on your own website with one line of code. On every plan you get booking pages of your own to link to." },
   { q: "Which countries does it work in?", a: "Any. It is used in a browser, prices in twelve currencies, and has no country-specific setup. It was built from the daily work of a tour operator in Egypt." },
   { q: "How much does it cost?", a: "Starter is $39 a month, Growth is $79 a month and Business is $149 a month. Paying yearly costs the same as ten months." },
   { q: "Can I try it first?", a: "Yes. A demo workspace with your company name and colours is ready in seconds, with sample orders to explore." },
