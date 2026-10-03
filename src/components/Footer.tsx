@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SITE, whatsappLink } from "@/lib/site";
+import { SOLUTIONS, REGIONS } from "@/lib/seo-pages";
 
 export default function Footer() {
   return (
@@ -23,11 +24,20 @@ export default function Footer() {
               <li><Link href="/#next">What's next</Link></li>
             </ul>
           </nav>
+          <nav aria-label="Solutions">
+            <h3>Solutions</h3>
+            <ul>{SOLUTIONS.map((x) => <li key={x.slug}><Link href={`/solutions/${x.slug}`}>{x.nav}</Link></li>)}</ul>
+          </nav>
+          <nav aria-label="Regions">
+            <h3>Regions</h3>
+            <ul>{REGIONS.map((x) => <li key={x.slug}><Link href={`/regions/${x.slug}`}>{x.nav}</Link></li>)}<li><Link href="/regions">All countries</Link></li></ul>
+          </nav>
           <nav aria-label="Get started">
             <h3>Get started</h3>
             <ul>
               <li><Link href="/#pricing">Pricing</Link></li>
               <li><Link href="/demo">Book a demo</Link></li>
+              <li><Link href="/start">Start a free demo</Link></li>
               <li><Link href="/subscribe">Subscribe</Link></li>
             </ul>
           </nav>

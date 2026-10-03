@@ -30,3 +30,8 @@ Have a lawyer review the Privacy Policy and Terms, and set the real domain in `N
 `/start` asks the Toursside product (the `Toursystem-Saas` deployment in multi-company mode) to create a workspace and
 then sends the visitor to it, signed in. Set `PRODUCT_API_URL` and `PROVISION_SECRET`; until both are set, the page says
 instant demos open soon and the homepage keeps "Book a demo" as its main button.
+
+## Search pages
+`/solutions/*` (what Toursside does) and `/regions/*` (how it fits travel companies in a country or region) are written in
+`src/lib/seo-pages.ts`. Each has its own title, description, canonical address, breadcrumb and FAQ data for search
+engines, and all are in the sitemap. Keep every claim true to the product, and never claim customers in a place.

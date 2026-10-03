@@ -10,6 +10,8 @@ import CountUp from "@/components/CountUp";
 import StickyCta from "@/components/StickyCta";
 import { SITE, PLANS, PLAN_IDS } from "@/lib/site";
 import { instantEnabled } from "@/lib/instant";
+import { Faqs, faqLd } from "@/components/SeoPage";
+import { HOME_FAQS, SOLUTIONS, REGIONS } from "@/lib/seo-pages";
 
 const SOURCES: [string, string, boolean][] = [
   ["Website", "Booked by the customer. The order creates itself.", true],
@@ -30,6 +32,7 @@ const jsonLd = {
       "@type": "SoftwareApplication", name: SITE.name, applicationCategory: "BusinessApplication", operatingSystem: "Web", url: SITE.url, description: SITE.description,
       offers: PLAN_IDS.map((id) => ({ "@type": "Offer", name: PLANS[id].name, price: PLANS[id].monthly, priceCurrency: "USD", description: `${PLANS[id].target}. Billed monthly, or $${PLANS[id].annual} per year.` })),
     },
+    faqLd(HOME_FAQS),
   ],
 };
 
@@ -179,6 +182,17 @@ export default function Home() {
             <p className="lede">Growth is the complete platform and the plan we recommend. Pay yearly and get two months free.</p>
           </div>
           <Pricing />
+        </div>
+      </section>
+
+      <section className="section" id="faq">
+        <div className="wrap">
+          <div className="section-head"><h2>Questions travel companies ask.</h2></div>
+          <Faqs faqs={HOME_FAQS} />
+          <h3 style={{ marginTop: 44, marginBottom: 14 }}>Explore by what you need</h3>
+          <ul className="seo-more">{SOLUTIONS.map((x) => <li key={x.slug}><Link href={`/solutions/${x.slug}`}>{x.nav}</Link></li>)}</ul>
+          <h3 style={{ marginTop: 30, marginBottom: 14 }}>Explore by where you work</h3>
+          <ul className="seo-more">{REGIONS.map((x) => <li key={x.slug}><Link href={`/regions/${x.slug}`}>{x.nav}</Link></li>)}<li><Link href="/regions">All countries</Link></li></ul>
         </div>
       </section>
 

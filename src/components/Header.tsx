@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const LINKS = [["/#product", "Product"], ["/#journey", "How it works"], ["/#pricing", "Pricing"], ["/#next", "What's next"]] as const;
+const LINKS = [["/#product", "Product"], ["/solutions", "Solutions"], ["/#journey", "How it works"], ["/#pricing", "Pricing"]] as const;
 
 export default function Header() {
   const [open, setOpen] = useState(false);
