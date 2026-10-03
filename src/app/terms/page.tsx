@@ -11,7 +11,7 @@ export default function Terms() {
         <h2>This website</h2>
         <p>The website describes Toursside as it works today. Screens are shown with sample data. Features described as planned are not available yet and may change.</p>
         <h2>Prices</h2>
-        <p>Prices are in US dollars, per company, for the Starter, Growth and Business plans. Annual billing costs the same as ten months. Enterprise pricing is agreed with each customer. We confirm your plan and price in writing before you pay.</p>
+        <p>Prices are set in US dollars, per company, for the Starter, Growth and Business plans, and may be shown in your local currency. Gulf currencies use their fixed rate to the dollar; other currencies are shown at an approximate rate and your invoice confirms the exact amount. Annual billing costs the same as ten months. Enterprise pricing is agreed with each customer. We confirm your plan and price in writing before you pay.</p>
         <h2>Subscribing</h2>
         <p>Sending a subscription request does not charge you and is not yet a contract. A subscription begins when you pay the invoice we send. It then runs for the period you chose, monthly or annual, and renews when the next invoice is paid.</p>
         <h2>Your data</h2>

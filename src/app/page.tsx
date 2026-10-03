@@ -10,6 +10,8 @@ import CountUp from "@/components/CountUp";
 import StickyCta from "@/components/StickyCta";
 import { SITE, PLANS, PLAN_IDS } from "@/lib/site";
 import { instantEnabled } from "@/lib/instant";
+import { visitorCurrency } from "@/lib/visitor";
+import { money } from "@/lib/currency";
 import { Faqs, faqLd } from "@/components/SeoPage";
 import { HOME_FAQS, SOLUTIONS, REGIONS } from "@/lib/seo-pages";
 
@@ -37,9 +39,10 @@ const jsonLd = {
 };
 
 export const dynamic = "force-dynamic";
-export default function Home() {
+export default async function Home() {
   // Once instant demos are switched on, "start now" becomes the main action and "book a demo" the second one.
   const instant = instantEnabled();
+  const cur = await visitorCurrency();
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -54,7 +57,7 @@ export default function Home() {
               {instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}
               {instant ? <Link href="/demo" className="btn btn-ghost">Book a demo</Link> : <a href="#product" className="btn btn-ghost">Explore Toursside</a>}
             </div>
-            <p className="hero-note">Plans from ${PLANS.starter.monthly} per month. Works on desktop and phone.</p>
+            <p className="hero-note">Plans from {money(PLANS.starter.monthly, cur)} per month. Works on desktop and phone.</p>
           </div>
           <div className="hero-stage">
             <Plane className="hero-plane" />
@@ -181,7 +184,7 @@ export default function Home() {
             <h2>Pick the plan that fits your agency.</h2>
             <p className="lede">Growth is the complete platform and the plan we recommend. Pay yearly and get two months free.</p>
           </div>
-          <Pricing />
+          <Pricing currency={cur} />
         </div>
       </section>
 
@@ -207,7 +210,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <StickyCta />
+      <StickyCta from={money(PLANS.starter.monthly, cur)} />
     </>
   );
 }

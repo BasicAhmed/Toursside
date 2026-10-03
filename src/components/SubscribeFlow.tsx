@@ -5,12 +5,13 @@ import { Sent, ViaWhatsApp } from "./Result";
 import { useRequest } from "./useRequest";
 import { PLANS, PLAN_IDS, priceOf, perOf, type PlanId, type Billing } from "@/lib/site";
 import { planLine } from "@/lib/requests";
+import { money, moneyYear, rateNote, type CurrencyCode } from "@/lib/currency";
 
 const STEPS = ["Plan", "Your business", "Review and send"];
 const TEAM = ["Just me", "2 to 5", "6 to 15", "16 to 50", "More than 50"];
 
-export default function SubscribeFlow({ initialPlan, initialBilling }: { initialPlan: PlanId; initialBilling: Billing }) {
-  const r = useRequest("subscribe", { plan: initialPlan, billing: initialBilling, company: "", name: "", email: "", phone: "", country: "", team: "", website: "", notes: "" });
+export default function SubscribeFlow({ initialPlan, initialBilling, currency = "USD" }: { initialPlan: PlanId; initialBilling: Billing; currency?: CurrencyCode }) {
+  const r = useRequest("subscribe", { plan: initialPlan, billing: initialBilling, currency, company: "", name: "", email: "", phone: "", country: "", team: "", website: "", notes: "" });
   const [step, setStep] = useState(0);
   const [hp, setHp] = useState("");
   const { values: v, errors: e, set } = r;
@@ -43,7 +44,7 @@ export default function SubscribeFlow({ initialPlan, initialBilling }: { initial
                 <label key={id}>
                   <input type="radio" name="plan" value={id} checked={v.plan === id} onChange={() => set("plan", id)} />
                   <b>{PLANS[id].name}</b>
-                  <span className="p">${priceOf(id, v.billing as Billing).toLocaleString("en-US")} <small>per {perOf(v.billing as Billing)}</small></span>
+                  <span className="p">{v.billing === "annual" ? moneyYear(PLANS[id].monthly, currency) : money(PLANS[id].monthly, currency)} <small>per {perOf(v.billing as Billing)}</small></span>
                   <span>{PLANS[id].target}</span>
                 </label>
               ))}
@@ -80,13 +81,14 @@ export default function SubscribeFlow({ initialPlan, initialBilling }: { initial
       {step === 2 && (
         <>
           <dl className="summary">
-            <div><dt>Plan</dt><dd>{planLine(v.plan, v.billing)}</dd></div>
+            <div><dt>Plan</dt><dd>{planLine(v.plan, v.billing, currency)}</dd></div>
             <div><dt>Company</dt><dd>{v.company}</dd></div>
             <div><dt>Contact</dt><dd>{v.name}</dd></div>
             <div><dt>Email</dt><dd>{v.email}</dd></div>
             <div><dt>Phone</dt><dd>{v.phone}</dd></div>
             <div><dt>Country</dt><dd>{v.country}</dd></div>
           </dl>
+          {currency !== "USD" ? <p className="rate-note" style={{ margin: "0 0 12px" }}>{rateNote(currency)}</p> : null}
           <p className="notice">Card payment on this page is not open yet. Sending this order does not charge you. We reply with an invoice for the plan you chose, and your workspace is set up once it is paid.</p>
           <div className="hp" aria-hidden="true"><label>Leave this empty<input tabIndex={-1} autoComplete="off" value={hp} onChange={(x) => setHp(x.target.value)} /></label></div>
         </>

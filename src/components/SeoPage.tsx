@@ -39,7 +39,7 @@ export default function SeoPage({ crumbs, h1, intro, cards, cardsTitle, shot, st
         <section className="seo-sec"><h2>{moreTitle}</h2><ul className="seo-more">{more.map(([name, path]) => <li key={path}><Link href={path}>{name}</Link></li>)}</ul></section>
       </div>
       <section className="closing on-dark" style={{ marginTop: 40 }}><div className="wrap">
-        <h2>See it with your own kind of trips.</h2><p>Plans start at $39 a month. Works on a computer and a phone.</p>
+        <h2>See it with your own kind of trips.</h2><p>A demo workspace is ready in seconds. Works on a computer and a phone.</p>
         <div className="cta-row">{instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}<Link href="/" className="btn btn-ghost">How Toursside works</Link></div>
       </div></section>
     </>

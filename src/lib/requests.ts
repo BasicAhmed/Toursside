@@ -1,4 +1,5 @@
 import { PLANS, priceOf, perOf, type PlanId, type Billing } from "./site";
+import { isCurrency, money, moneyYear } from "./currency";
 
 // Field definitions shared by the forms, the server route and the WhatsApp fallback, so all three always agree.
 export const DEMO_FIELDS = [
@@ -31,15 +32,18 @@ export function validate(kind: Kind, v: Values): Record<string, string> {
   return e;
 }
 
-export function planLine(plan: string, billing: string) {
+export function planLine(plan: string, billing: string, currency?: string) {
   if (!(plan in PLANS)) return plan;
   const b: Billing = billing === "annual" ? "annual" : "monthly";
-  return `${PLANS[plan as PlanId].name}, $${priceOf(plan as PlanId, b).toLocaleString("en-US")} per ${perOf(b)}`;
+  const usd = priceOf(plan as PlanId, b);
+  const m = PLANS[plan as PlanId].monthly;
+  const local = isCurrency(currency) && currency !== "USD" ? `${b === "annual" ? moneyYear(m, currency) : money(m, currency)} (` : "";
+  return `${PLANS[plan as PlanId].name}, ${local}$${usd.toLocaleString("en-US")}${local ? ")" : ""} per ${perOf(b)}`;
 }
 
 export function toText(kind: Kind, v: Values) {
   const fields = kind === "demo" ? DEMO_FIELDS : SUBSCRIBE_FIELDS;
   const head = kind === "demo" ? "Toursside demo request" : "Toursside subscription request";
-  const lines = fields.map(([k, label]) => [label, k === "plan" ? planLine(v.plan || "", v.billing || "") : (v[k] || "").trim()] as const).filter(([, val]) => val);
+  const lines = fields.map(([k, label]) => [label, k === "plan" ? planLine(v.plan || "", v.billing || "", v.currency) : (v[k] || "").trim()] as const).filter(([, val]) => val);
   return `${head}\n\n${lines.map(([l, val]) => `${l}: ${val}`).join("\n")}`;
 }
