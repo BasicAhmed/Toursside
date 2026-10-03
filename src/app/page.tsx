@@ -8,7 +8,7 @@ import Plane from "@/components/Plane";
 import HeroVideo from "@/components/HeroVideo";
 import CountUp from "@/components/CountUp";
 import StickyCta from "@/components/StickyCta";
-import { SITE, PLANS, PLAN_IDS } from "@/lib/site";
+import { SITE, PLANS, PLAN_IDS, whatsappLink } from "@/lib/site";
 import { instantEnabled } from "@/lib/instant";
 import { visitorCurrency } from "@/lib/visitor";
 import { money } from "@/lib/currency";
@@ -55,7 +55,7 @@ export default async function Home() {
             <p className="lede">Toursside is software for travel agencies and tour operators. Manage bookings, customers, itineraries, invoices, payments and partner requests in one connected system, instead of five separate tools.</p>
             <div className="cta-row">
               {instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}
-              {instant ? <Link href="/demo" className="btn btn-ghost">Book a demo</Link> : <a href="#product" className="btn btn-ghost">Explore Toursside</a>}
+              {instant ? <a href={whatsappLink("Hello Toursside, I have a question.")} target="_blank" rel="noopener noreferrer" className="btn btn-wa"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5.1 5.2-1.4A9.9 9.9 0 1 0 12.04 2zm5.8 14.1c-.2.7-1.4 1.300-2 1.400-.5.1-1.200.1-1.900-.1-.4-.1-1-.3-1.700-.6-3-1.300-5-4.300-5.100-4.500-.2-.2-1.200-1.600-1.200-3.100s.8-2.200 1-2.500c.3-.3.600-.4.800-.4h.6c.2 0 .4-.1.7.5l1 2.300c.1.200.1.400 0 .600l-.4.600-.5.500c-.2.200-.3.400-.1.700.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.400 2.400 1.500.3.200.5.100.700-.1l.9-1.100c.2-.300.4-.200.7-.100l2.200 1c.3.200.5.200.6.400.1.100.1.700-.100 1.400z" /></svg>Contact us on WhatsApp</a> : <a href="#product" className="btn btn-ghost">Explore Toursside</a>}
             </div>
             <p className="hero-note">Plans from {money(PLANS.starter.monthly, cur)} per month. Works on desktop and phone.</p>
           </div>
@@ -206,7 +206,7 @@ export default async function Home() {
           <p>See Toursside with your own kind of trips in a short call, or start with a plan today.</p>
           <div className="cta-row">
             {instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}
-            {instant ? <Link href="/demo" className="btn btn-ghost">Book a demo</Link> : <a href="#product" className="btn btn-ghost">Explore the platform</a>}
+            {instant ? <a href={whatsappLink("Hello Toursside, I have a question.")} target="_blank" rel="noopener noreferrer" className="btn btn-wa"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5.1 5.2-1.4A9.9 9.9 0 1 0 12.04 2zm5.8 14.1c-.2.7-1.4 1.300-2 1.400-.5.1-1.200.1-1.900-.1-.4-.1-1-.3-1.700-.6-3-1.300-5-4.300-5.100-4.500-.2-.2-1.200-1.600-1.200-3.100s.8-2.200 1-2.500c.3-.3.600-.4.800-.4h.6c.2 0 .4-.1.7.5l1 2.300c.1.200.1.400 0 .600l-.4.600-.5.500c-.2.200-.3.400-.1.700.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.400 2.400 1.500.3.200.5.100.700-.1l.9-1.100c.2-.300.4-.200.7-.100l2.200 1c.3.200.5.200.6.400.1.100.1.700-.100 1.400z" /></svg>Contact us on WhatsApp</a> : <a href="#product" className="btn btn-ghost">Explore the platform</a>}
           </div>
         </div>
       </section>
