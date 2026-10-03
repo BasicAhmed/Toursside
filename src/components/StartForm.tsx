@@ -3,15 +3,16 @@ import Link from "next/link";
 import { useState } from "react";
 import Field from "./Field";
 import { THEMES } from "@/lib/instant";
+import WorkspaceBuilder from "./WorkspaceBuilder";
 
-type Status = "idle" | "creating" | "opening" | "failed";
+type Status = "idle" | "creating" | "failed";
 
 export default function StartForm() {
   const [v, setV] = useState({ company: "", name: "", email: "", password: "", theme: "ocean" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
-  const [hp, setHp] = useState("");
+  const [hp, setHp] = useState(""); const [url, setUrl] = useState("");
   const set = (k: string, x: string) => { setV((s) => ({ ...s, [k]: x })); if (errors[k]) setErrors((e) => { const n = { ...e }; delete n[k]; return n; }); };
   const theme = THEMES.find((t) => t.id === v.theme) ?? THEMES[0];
   const initials = v.company.trim().split(/\s+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join("").toUpperCase() || "TS";
@@ -22,20 +23,16 @@ export default function StartForm() {
     try {
       const res = await fetch("/api/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...v, website_url: hp }) });
       const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok && data.loginUrl) { setStatus("opening"); window.location.assign(data.loginUrl); return; }
+      if (res.ok && data.ok && data.loginUrl) { setUrl(data.loginUrl); return; }
       if (data.errors) { setErrors(data.errors); setStatus("idle"); const first = Object.keys(data.errors)[0]; requestAnimationFrame(() => document.getElementById(`f-${first}`)?.focus()); return; }
       setMessage(data.code === "NOT_CONFIGURED" ? "Instant demos are not switched on yet." : data.message || "We couldn't create your demo just now.");
       setStatus("failed");
     } catch { setMessage("We couldn't reach the server. Check your connection and try again."); setStatus("failed"); }
   };
 
-  if (status === "opening") return (
-    <div className="panel result" role="status"><div className="badge" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0B6F6D" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5 10 17.5 19 7" /></svg></div>
-      <h2>Your workspace is ready</h2><p>Opening {v.company.trim()} now.</p></div>
-  );
-
   return (
     <form className="panel" noValidate onSubmit={submit}>
+      {status === "creating" ? <WorkspaceBuilder company={v.company} primary={theme.primary} accent={theme.accent} ready={!!url} onDone={() => window.location.assign(url)} /> : null}
       <div className="fields two">
         <Field id="company" label="Company name" full value={v.company} error={errors.company} onChange={(x) => set("company", x)} autoComplete="organization" placeholder="For example: Blue Lagoon Travel" />
         <Field id="name" label="Your name" value={v.name} error={errors.name} onChange={(x) => set("name", x)} autoComplete="name" />

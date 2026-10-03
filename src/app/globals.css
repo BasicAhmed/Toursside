@@ -446,3 +446,54 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (max-width: 640px) { .cur-pick { margin-left: 0; width: 100%; } .cur-pick select { flex: 1; max-width: none; } }
 .btn-wa { background: #128A48; color: #fff; box-shadow: 0 10px 24px -12px rgba(18,138,72,.9); }
 .btn-wa:hover { background: #0F7A40; transform: translateY(-1px); }
+
+/* Workspace builder: the film shown while a new workspace is created */
+.wb { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; overflow: auto; color: #fff;
+  background: radial-gradient(900px 520px at 50% 0%, color-mix(in srgb, var(--wb-a) 30%, transparent), transparent 70%), #0B1E30; animation: wbIn .35s ease both; }
+.wb-in { width: min(440px, 100%); text-align: center; }
+.wb-stage { position: relative; padding-top: 54px; }
+.wb-route { position: absolute; left: 50%; top: 0; width: min(320px, 92%); translate: -50% 0; color: rgb(255 255 255 / .28); }
+.wb-plane { position: absolute; left: 50%; top: 0; width: min(320px, 92%); height: 90px; translate: -50% 0; color: var(--wb-a); pointer-events: none; }
+.wb-plane svg { position: absolute; left: 0; top: 0; offset-path: path("M6 78 C 90 -8, 230 -8, 314 78"); offset-rotate: auto 45deg; offset-distance: 0%; filter: drop-shadow(0 4px 10px rgb(0 0 0 / .35)); }
+.wb-app { position: relative; display: grid; grid-template-columns: 58px 1fr; height: 214px; border-radius: 18px; overflow: hidden; background: #F7F9F8; text-align: left; box-shadow: 0 30px 60px -20px rgb(0 0 0 / .6), 0 0 0 1px rgb(255 255 255 / .08); }
+.wb-side { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 12px 0; background: #9AA7B2; transition: background .7s ease; }
+.wb-side i { width: 26px; height: 6px; border-radius: 4px; background: rgb(255 255 255 / .28); }
+.wb-mark { display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 4px; border-radius: 10px; background: #C9D2D9; color: transparent; font: 800 12px/1 var(--font-display, inherit); transition: background .7s ease, color .5s ease .2s, transform .5s cubic-bezier(.3,1.6,.5,1); transform: scale(.7); }
+.wb-main { padding: 12px 14px; min-width: 0; }
+.wb-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.wb-top b { overflow: hidden; color: #17202A; font-size: 13.5px; white-space: nowrap; text-overflow: ellipsis; opacity: 0; transition: opacity .5s ease .15s; }
+.wb-top span { flex: none; padding: 6px 9px; border-radius: 8px; background: #C9D2D9; color: #fff; font-size: 10.5px; font-weight: 700; transition: background .7s ease; }
+.wb-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 11px 0; }
+.wb-cards em { height: 34px; border-radius: 9px; background: linear-gradient(100deg, #E6EBEE 30%, #F3F6F7 50%, #E6EBEE 70%) 0 0 / 200% 100%; animation: wbShimmer 1.3s linear infinite; }
+.wb-row { display: flex; align-items: center; gap: 9px; padding: 7px 9px; margin-top: 6px; border-radius: 9px; background: #fff; box-shadow: 0 1px 2px rgb(16 42 67 / .08); opacity: 0; transform: translateY(14px); transition: opacity .45s ease, transform .5s cubic-bezier(.2,.9,.3,1.2); }
+.wb-row u { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--wb-a); }
+.wb-row p { flex: 1; margin: 0; overflow: hidden; color: #17202A; font-size: 11.5px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
+.wb-row small { padding: 2px 7px; border-radius: 99px; background: color-mix(in srgb, var(--wb-a) 16%, #fff); color: #17202A; font-size: 9.5px; font-weight: 700; }
+.wb-app:is(.s1, .s2, .s3) .wb-side { background: var(--wb-p); }
+.wb-app:is(.s1, .s2, .s3) .wb-mark { background: var(--wb-a); color: var(--wb-p); transform: scale(1); }
+.wb-app:is(.s1, .s2, .s3) .wb-top b { opacity: 1; }
+.wb-app:is(.s1, .s2, .s3) .wb-top span { background: var(--wb-a); }
+.wb-app:is(.s2, .s3) .wb-row { opacity: 1; transform: none; }
+.wb-app:is(.s2, .s3) .wb-cards em { animation: none; background: color-mix(in srgb, var(--wb-a) 14%, #fff); }
+.wb-shine { position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / .75) 50%, transparent 60%); translate: -100% 0; pointer-events: none; }
+.wb-app.s3 { animation: wbPop .6s cubic-bezier(.3,1.5,.5,1); }
+.wb-app.s3 .wb-shine { animation: wbShine .9s ease .1s; }
+.wb h2 { margin: 26px 0 14px; color: #fff; font-size: clamp(21px, 5.4vw, 26px); }
+.wb-bar { height: 6px; border-radius: 99px; overflow: hidden; background: rgb(255 255 255 / .14); }
+.wb-bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--wb-a), #FF8A3D); transition: width 1s cubic-bezier(.3,.7,.2,1); }
+.wb-steps { display: grid; gap: 9px; margin: 18px 0 0; padding: 0; list-style: none; text-align: left; }
+.wb-steps li { display: flex; align-items: center; gap: 10px; color: rgb(255 255 255 / .42); font-size: 14.5px; transition: color .4s ease; }
+.wb-steps li span { display: grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgb(255 255 255 / .25); color: #0B1E30; transition: background .3s ease, border-color .3s ease; }
+.wb-steps li.now { color: #fff; font-weight: 600; }
+.wb-steps li.now span { border-color: var(--wb-a); border-top-color: transparent; animation: wbSpin .8s linear infinite; }
+.wb-steps li.ok { color: rgb(255 255 255 / .8); }
+.wb-steps li.ok span { background: var(--wb-a); border-color: var(--wb-a); animation: wbTick .4s cubic-bezier(.3,1.8,.5,1); }
+@keyframes wbIn { from { opacity: 0; } }
+@keyframes wbSpin { to { rotate: 360deg; } }
+@keyframes wbTick { from { scale: .4; } }
+@keyframes wbShimmer { to { background-position: -200% 0; } }
+@keyframes wbPop { 40% { scale: 1.035; } }
+@keyframes wbShine { to { translate: 100% 0; } }
+@keyframes wbFly { 0% { offset-distance: 0%; opacity: 0; } 8%, 92% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) { .wb-plane svg { animation: wbFly 2.6s cubic-bezier(.45,.05,.55,.95) infinite; } }
+@media (prefers-reduced-motion: reduce) { .wb *, .wb { animation: none !important; transition: none !important; } .wb-plane { display: none; } }

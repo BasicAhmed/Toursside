@@ -1,4 +1,5 @@
 "use client";
+import WorkspaceBuilder from "./WorkspaceBuilder";
 import { useEffect, useState } from "react";
 import Field from "./Field";
 import { Sent, ViaWhatsApp } from "./Result";
@@ -13,14 +14,14 @@ const TEAM = ["Just me", "2 to 5", "6 to 15", "16 to 50", "More than 50"];
 export default function SubscribeFlow({ initialPlan, initialBilling, currency = "USD", instant = false }: { initialPlan: PlanId; initialBilling: Billing; currency?: CurrencyCode; instant?: boolean }) {
   const r = useRequest("subscribe", { plan: initialPlan, billing: initialBilling, currency, company: "", name: "", email: "", phone: "", country: "", team: "", website: "", notes: "" });
   const [step, setStep] = useState(0);
-  const [password, setPassword] = useState(""); const [pwErr, setPwErr] = useState(""); const [creating, setCreating] = useState<"" | "busy" | "open">(""); const [createErr, setCreateErr] = useState("");
+  const [password, setPassword] = useState(""); const [pwErr, setPwErr] = useState(""); const [creating, setCreating] = useState<"" | "busy" | "open">(""); const [createErr, setCreateErr] = useState(""); const [openUrl, setOpenUrl] = useState("");
   // With instant workspaces on: create the company's workspace now, with the plan attached, and open it on "how to pay".
   const create = async () => {
     setCreating("busy"); setCreateErr("");
     try {
       const res = await fetch("/api/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ company: v.company, name: v.name, email: v.email, phone: v.phone, password, plan: v.plan, billing: v.billing, currency, website_url: hp }) });
       const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok && data.loginUrl) { setCreating("open"); window.location.assign(data.loginUrl); return; }
+      if (res.ok && data.ok && data.loginUrl) { setOpenUrl(data.loginUrl); return; }
       // Could not create it right now: send the order to the team instead, so it is not lost.
       if (data.code === "NOT_CONFIGURED" || data.code === "FAILED" || data.code === "FULL") { setCreating(""); r.send(hp); return; }
       setCreateErr(data.errors ? Object.values(data.errors as Record<string, string>).join(". ") : data.message || "We couldn't create your workspace just now."); setCreating("");
@@ -47,6 +48,7 @@ export default function SubscribeFlow({ initialPlan, initialBilling, currency = 
 
   return (
     <form className="panel" noValidate onSubmit={(ev) => { ev.preventDefault(); if (step < 2) next(); else if (instant) create(); else r.send(hp); }}>
+      {creating === "busy" ? <WorkspaceBuilder company={v.company} ready={!!openUrl} onDone={() => window.location.assign(openUrl)} /> : null}
       <ol className="steps" aria-label="Progress">
         {STEPS.map((s, i) => <li key={s} className={i < step ? "done" : ""} aria-current={i === step ? "step" : undefined}>{i + 1}. {s}</li>)}
       </ol>
