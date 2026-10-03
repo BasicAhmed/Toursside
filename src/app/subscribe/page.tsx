@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SubscribeFlow from "@/components/SubscribeFlow";
 import { visitorCurrency } from "@/lib/visitor";
+import { instantEnabled } from "@/lib/instant";
 import { PLANS, MAIN_PLAN, type PlanId, type Billing } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Subscribe", description: "Start a Toursside subscription. Choose Starter, Growth or Business and tell us about your travel business.", alternates: { canonical: "/subscribe" } };
@@ -8,6 +9,7 @@ export const metadata: Metadata = { title: "Subscribe", description: "Start a To
 export default async function Subscribe({ searchParams }: { searchParams: Promise<{ plan?: string; billing?: string; currency?: string }> }) {
   const { plan, billing, currency } = await searchParams;
   const cur = await visitorCurrency(currency);
+  const instant = instantEnabled();
   const initial: PlanId = plan && plan in PLANS ? (plan as PlanId) : MAIN_PLAN;
   const initialBilling: Billing = billing === "monthly" ? "monthly" : "annual";
   return (
@@ -17,14 +19,18 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
         <p className="lede">Three short steps. You are not charged on this page.</p>
       </div>
       <div className="form-grid">
-        <SubscribeFlow initialPlan={initial} initialBilling={initialBilling} currency={cur} />
+        <SubscribeFlow initialPlan={initial} initialBilling={initialBilling} currency={cur} instant={instant} />
         <aside className="aside">
-          <h2>After you send it</h2>
-          <ol>
+          <h2>What happens next</h2>
+          {instant ? <ol>
+            <li><b>Your workspace opens</b><span>Created in seconds with your company name, ready to use.</span></li>
+            <li><b>You see how to pay</b><span>The amount for your plan and the payment details, on one page.</span></li>
+            <li><b>Your plan starts</b><span>As soon as we confirm the payment. Nothing you add in the meantime is lost.</span></li>
+          </ol> : <ol>
             <li><b>Invoice</b><span>We send an invoice for the plan and billing period you chose.</span></li>
             <li><b>Setup</b><span>Once it is paid, we set up your workspace with your name, logo and colours.</span></li>
             <li><b>Onboarding</b><span>You get your login and a walkthrough for your team.</span></li>
-          </ol>
+          </ol>}
         </aside>
       </div>
     </div>

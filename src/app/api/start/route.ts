@@ -30,7 +30,9 @@ export async function POST(req: Request) {
     const res = await fetch(`${PRODUCT_API_URL}/api/provision`, {
       method: "POST", cache: "no-store",
       headers: { Authorization: `Bearer ${PROVISION_SECRET}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ company: s("company"), name: s("name"), email: s("email"), password: b.password, theme: THEMES.some((t) => t.id === s("theme")) ? s("theme") : "ocean" }),
+      body: JSON.stringify({ company: s("company"), name: s("name"), email: s("email"), password: b.password, theme: THEMES.some((t) => t.id === s("theme")) ? s("theme") : "ocean", phone: s("phone").slice(0, 40),
+        // Coming from the pricing page: the chosen plan travels with the sign-up, so the workspace opens on "how to pay".
+        ...(["starter", "growth", "business"].includes(s("plan").toLowerCase()) ? { plan: s("plan"), billing: s("billing") === "annual" ? "annual" : "monthly", currency: s("currency").slice(0, 3) } : {}) }),
     });
     const data = await res.json().catch(() => ({}));
     if (res.ok && data.ok) return NextResponse.json({ ok: true, loginUrl: data.loginUrl, url: data.url });
