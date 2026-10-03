@@ -25,3 +25,8 @@ npm run typecheck && npm run build
 
 ## Before launch
 Have a lawyer review the Privacy Policy and Terms, and set the real domain in `NEXT_PUBLIC_SITE_URL`.
+
+## Instant demos
+`/start` asks the Toursside product (the `Toursystem-Saas` deployment in multi-company mode) to create a workspace and
+then sends the visitor to it, signed in. Set `PRODUCT_API_URL` and `PROVISION_SECRET`; until both are set, the page says
+instant demos open soon and the homepage keeps "Book a demo" as its main button.

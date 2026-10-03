@@ -391,3 +391,19 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .step-sub { font-family: var(--display); font-weight: 600; color: var(--navy); margin: 22px 0 10px; }
 .choice.three .p { font-size: 1.7rem; }
 .choice.three .p small { display: block; font-size: .92rem; margin-bottom: 6px; }
+
+/* Instant demo form */
+.swatches { border: 0; padding: 0; margin: 22px 0 0; }
+.swatches legend { font-weight: 600; color: var(--navy); margin-bottom: 10px; font-size: .98rem; padding: 0; }
+.swatches > div { display: flex; flex-wrap: wrap; gap: 10px; }
+.swatches label { position: relative; cursor: pointer; }
+.swatches input { position: absolute; opacity: 0; inset: 0; }
+.swatches span { display: block; width: 48px; height: 48px; border-radius: 14px; border: 3px solid #fff; box-shadow: 0 0 0 1.5px #C5D0CE; transition: transform .15s, box-shadow .15s; }
+.swatches input:checked + span { box-shadow: 0 0 0 3px var(--navy); transform: scale(1.06); }
+.swatches input:focus-visible + span { outline: 3px solid var(--teal); outline-offset: 4px; }
+.preview { margin-top: 18px; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; color: #fff; transition: background-color .25s; }
+.preview .pm { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; font-family: var(--display); font-weight: 700; flex: none; transition: background-color .25s; }
+.preview .pn { font-family: var(--display); font-weight: 650; line-height: 1.2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.preview .pn small { display: block; font-family: var(--body); font-weight: 400; font-size: .8rem; opacity: .6; }
+.preview .pb { font-family: var(--display); font-weight: 650; font-size: .9rem; padding: 9px 14px; border-radius: 10px; white-space: nowrap; transition: background-color .25s; }
+@media (max-width: 420px) { .preview .pb { display: none; } }

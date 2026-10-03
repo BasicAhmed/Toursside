@@ -9,6 +9,7 @@ import HeroVideo from "@/components/HeroVideo";
 import CountUp from "@/components/CountUp";
 import StickyCta from "@/components/StickyCta";
 import { SITE, PLANS, PLAN_IDS } from "@/lib/site";
+import { instantEnabled } from "@/lib/instant";
 
 const SOURCES: [string, string, boolean][] = [
   ["Website", "Booked by the customer. The order creates itself.", true],
@@ -32,7 +33,10 @@ const jsonLd = {
   ],
 };
 
+export const dynamic = "force-dynamic";
 export default function Home() {
+  // Once instant demos are switched on, "start now" becomes the main action and "book a demo" the second one.
+  const instant = instantEnabled();
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -44,8 +48,8 @@ export default function Home() {
             <h1>The operating system <span className="l2">behind your travel business.</span></h1>
             <p className="lede">Toursside is software for travel agencies and tour operators. Manage bookings, customers, itineraries, invoices, payments and partner requests in one connected system, instead of five separate tools.</p>
             <div className="cta-row">
-              <Link href="/demo" className="btn btn-primary">Book a demo</Link>
-              <a href="#product" className="btn btn-ghost">Explore Toursside</a>
+              {instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}
+              {instant ? <Link href="/demo" className="btn btn-ghost">Book a demo</Link> : <a href="#product" className="btn btn-ghost">Explore Toursside</a>}
             </div>
             <p className="hero-note">Plans from ${PLANS.starter.monthly} per month. Works on desktop and phone.</p>
           </div>
@@ -184,8 +188,8 @@ export default function Home() {
           <h2>Your tours are growing. Your systems should grow with them.</h2>
           <p>See Toursside with your own kind of trips in a short call, or start with a plan today.</p>
           <div className="cta-row">
-            <Link href="/demo" className="btn btn-primary">Book a demo</Link>
-            <a href="#product" className="btn btn-ghost">Explore the platform</a>
+            {instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}
+            {instant ? <Link href="/demo" className="btn btn-ghost">Book a demo</Link> : <a href="#product" className="btn btn-ghost">Explore the platform</a>}
           </div>
         </div>
       </section>
