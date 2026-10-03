@@ -8,7 +8,7 @@ import Plane from "@/components/Plane";
 import HeroVideo from "@/components/HeroVideo";
 import CountUp from "@/components/CountUp";
 import StickyCta from "@/components/StickyCta";
-import { SITE, PLANS } from "@/lib/site";
+import { SITE, PLANS, PLAN_IDS } from "@/lib/site";
 
 const SOURCES: [string, string, boolean][] = [
   ["Website", "Booked by the customer. The order creates itself.", true],
@@ -27,10 +27,7 @@ const jsonLd = {
     { "@type": "WebSite", "@id": `${SITE.url}/#site`, url: SITE.url, name: SITE.name, publisher: { "@id": `${SITE.url}/#org` } },
     {
       "@type": "SoftwareApplication", name: SITE.name, applicationCategory: "BusinessApplication", operatingSystem: "Web", url: SITE.url, description: SITE.description,
-      offers: [
-        { "@type": "Offer", name: "Monthly", price: PLANS.monthly.price, priceCurrency: "USD", description: "Starting price, billed monthly" },
-        { "@type": "Offer", name: "Annual", price: PLANS.annual.price, priceCurrency: "USD", description: "Starting price, billed yearly" },
-      ],
+      offers: PLAN_IDS.map((id) => ({ "@type": "Offer", name: PLANS[id].name, price: PLANS[id].monthly, priceCurrency: "USD", description: `${PLANS[id].target}. Billed monthly, or $${PLANS[id].annual} per year.` })),
     },
   ],
 };
@@ -50,7 +47,7 @@ export default function Home() {
               <Link href="/demo" className="btn btn-primary">Book a demo</Link>
               <a href="#product" className="btn btn-ghost">Explore Toursside</a>
             </div>
-            <p className="hero-note">Starting from ${PLANS.monthly.price} per month. Works on desktop and phone.</p>
+            <p className="hero-note">Plans from ${PLANS.starter.monthly} per month. Works on desktop and phone.</p>
           </div>
           <div className="hero-stage">
             <Plane className="hero-plane" />
@@ -174,8 +171,8 @@ export default function Home() {
       <section className="section" id="pricing" style={{ background: "#fff", borderTop: "1px solid var(--line)" }}>
         <div className="wrap">
           <div className="section-head">
-            <h2>Simple pricing that starts small.</h2>
-            <p className="lede">One plan with the whole system. Pay monthly, or pay for the year for the price of ten months.</p>
+            <h2>Pick the plan that fits your agency.</h2>
+            <p className="lede">Growth is the complete platform and the plan we recommend. Pay yearly and get two months free.</p>
           </div>
           <Pricing />
         </div>

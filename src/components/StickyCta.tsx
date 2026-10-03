@@ -13,7 +13,7 @@ export default function StickyCta() {
   }, []);
   return (
     <div className={`sticky-cta${show ? " show" : ""}`} aria-hidden={!show}>
-      <span>From $50 per month</span>
+      <span>Plans from $39 per month</span>
       <Link href="/demo" className="btn btn-primary btn-sm" tabIndex={show ? 0 : -1}>Book a demo</Link>
     </div>
   );

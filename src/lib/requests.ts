@@ -1,4 +1,4 @@
-import { PLANS, type PlanId } from "./site";
+import { PLANS, priceOf, perOf, type PlanId, type Billing } from "./site";
 
 // Field definitions shared by the forms, the server route and the WhatsApp fallback, so all three always agree.
 export const DEMO_FIELDS = [
@@ -25,19 +25,21 @@ export function validate(kind: Kind, v: Values): Record<string, string> {
   if (!v.phone?.trim()) e.phone = "Enter a phone or WhatsApp number";
   else if (v.phone.replace(/\D/g, "").length < 7) e.phone = "Enter the full number with country code";
   need("country", "Enter your country");
-  if (kind === "subscribe" && !(v.plan in PLANS)) e.plan = "Choose monthly or annual billing";
+  if (kind === "subscribe" && !(v.plan in PLANS)) e.plan = "Choose a plan";
+  if (kind === "subscribe" && v.billing !== "monthly" && v.billing !== "annual") e.billing = "Choose monthly or annual billing";
   for (const k of Object.keys(v)) if (v[k] && v[k].length > 1200) e[k] = "Shorten this to under 1,200 characters";
   return e;
 }
 
-export function planLine(plan: string) {
-  const p = PLANS[plan as PlanId];
-  return p ? `${p.label}, starting from $${p.price} per ${p.per}` : plan;
+export function planLine(plan: string, billing: string) {
+  if (!(plan in PLANS)) return plan;
+  const b: Billing = billing === "annual" ? "annual" : "monthly";
+  return `${PLANS[plan as PlanId].name}, $${priceOf(plan as PlanId, b).toLocaleString("en-US")} per ${perOf(b)}`;
 }
 
 export function toText(kind: Kind, v: Values) {
   const fields = kind === "demo" ? DEMO_FIELDS : SUBSCRIBE_FIELDS;
   const head = kind === "demo" ? "Toursside demo request" : "Toursside subscription request";
-  const lines = fields.map(([k, label]) => [label, k === "plan" ? planLine(v[k] || "") : (v[k] || "").trim()] as const).filter(([, val]) => val);
+  const lines = fields.map(([k, label]) => [label, k === "plan" ? planLine(v.plan || "", v.billing || "") : (v[k] || "").trim()] as const).filter(([, val]) => val);
   return `${head}\n\n${lines.map(([l, val]) => `${l}: ${val}`).join("\n")}`;
 }

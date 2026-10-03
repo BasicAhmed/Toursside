@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import Field from "./Field";
 import { Sent, ViaWhatsApp } from "./Result";
 import { useRequest } from "./useRequest";
-import { PLANS, type PlanId } from "@/lib/site";
+import { PLANS, PLAN_IDS, priceOf, perOf, type PlanId, type Billing } from "@/lib/site";
 import { planLine } from "@/lib/requests";
 
-const STEPS = ["Billing", "Your business", "Review and send"];
+const STEPS = ["Plan", "Your business", "Review and send"];
 const TEAM = ["Just me", "2 to 5", "6 to 15", "16 to 50", "More than 50"];
 
-export default function SubscribeFlow({ initialPlan }: { initialPlan: PlanId }) {
-  const r = useRequest("subscribe", { plan: initialPlan, company: "", name: "", email: "", phone: "", country: "", team: "", website: "", notes: "" });
+export default function SubscribeFlow({ initialPlan, initialBilling }: { initialPlan: PlanId; initialBilling: Billing }) {
+  const r = useRequest("subscribe", { plan: initialPlan, billing: initialBilling, company: "", name: "", email: "", phone: "", country: "", team: "", website: "", notes: "" });
   const [step, setStep] = useState(0);
   const [hp, setHp] = useState("");
   const { values: v, errors: e, set } = r;
@@ -18,7 +18,7 @@ export default function SubscribeFlow({ initialPlan }: { initialPlan: PlanId }) 
 
   if (r.status === "sent") return (
     <Sent title="Subscription request sent">
-      <p>You have not been charged. We'll send an invoice for your first {PLANS[v.plan as PlanId].per} to {v.email}. Once it is paid we set up your Toursside workspace and send your login.</p>
+      <p>You have not been charged. We'll send an invoice for your first {perOf(v.billing as Billing)} to {v.email}. Once it is paid we set up your Toursside workspace and send your login.</p>
     </Sent>
   );
   if (r.status === "whatsapp") return <ViaWhatsApp url={r.whatsappUrl} what="subscription request" onBack={() => r.setStatus("idle")} />;
@@ -31,23 +31,37 @@ export default function SubscribeFlow({ initialPlan }: { initialPlan: PlanId }) 
         {STEPS.map((s, i) => <li key={s} className={i < step ? "done" : ""} aria-current={i === step ? "step" : undefined}>{i + 1}. {s}</li>)}
       </ol>
       <h2 id="step-title" tabIndex={-1} style={{ fontSize: "1.6rem", marginBottom: 18, outline: 0 }}>
-        {["Choose how you want to pay", "Tell us about your business", "Check your order"][step]}
+        {["Choose your plan", "Tell us about your business", "Check your order"][step]}
       </h2>
 
       {step === 0 && (
-        <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
-          <legend className="sr">Billing period</legend>
-          <div className="choice">
-            {(Object.keys(PLANS) as PlanId[]).map((id) => (
-              <label key={id}>
-                <input type="radio" name="plan" value={id} checked={v.plan === id} onChange={() => set("plan", id)} />
-                <b>{PLANS[id].label}</b>
-                <span className="p">${PLANS[id].price} <small>per {PLANS[id].per}</small></span>
-                <span>Starting price. {PLANS[id].note}.</span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
+        <>
+          <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+            <legend className="sr">Plan</legend>
+            <div className="choice three">
+              {PLAN_IDS.map((id) => (
+                <label key={id}>
+                  <input type="radio" name="plan" value={id} checked={v.plan === id} onChange={() => set("plan", id)} />
+                  <b>{PLANS[id].name}</b>
+                  <span className="p">${priceOf(id, v.billing as Billing).toLocaleString("en-US")} <small>per {perOf(v.billing as Billing)}</small></span>
+                  <span>{PLANS[id].target}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+            <legend className="step-sub">Billing</legend>
+            <div className="choice">
+              {(["monthly", "annual"] as Billing[]).map((b) => (
+                <label key={b}>
+                  <input type="radio" name="billing" value={b} checked={v.billing === b} onChange={() => set("billing", b)} />
+                  <b>{b === "monthly" ? "Monthly" : "Annual"}</b>
+                  <span>{b === "monthly" ? "Billed every month" : "Billed once a year, two months free"}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </>
       )}
 
       {step === 1 && (
@@ -66,20 +80,20 @@ export default function SubscribeFlow({ initialPlan }: { initialPlan: PlanId }) 
       {step === 2 && (
         <>
           <dl className="summary">
-            <div><dt>Plan</dt><dd>{planLine(v.plan)}</dd></div>
+            <div><dt>Plan</dt><dd>{planLine(v.plan, v.billing)}</dd></div>
             <div><dt>Company</dt><dd>{v.company}</dd></div>
             <div><dt>Contact</dt><dd>{v.name}</dd></div>
             <div><dt>Email</dt><dd>{v.email}</dd></div>
             <div><dt>Phone</dt><dd>{v.phone}</dd></div>
             <div><dt>Country</dt><dd>{v.country}</dd></div>
           </dl>
-          <p className="notice">Card payment on this page is not open yet. Sending this order does not charge you. We reply with an invoice that confirms your price, and your workspace is set up once it is paid.</p>
+          <p className="notice">Card payment on this page is not open yet. Sending this order does not charge you. We reply with an invoice for the plan you chose, and your workspace is set up once it is paid.</p>
           <div className="hp" aria-hidden="true"><label>Leave this empty<input tabIndex={-1} autoComplete="off" value={hp} onChange={(x) => setHp(x.target.value)} /></label></div>
         </>
       )}
 
       <div className="form-foot">
-        {step > 0 ? <button type="button" className="btn btn-ghost" onClick={() => setStep((s) => s - 1)}>Back</button> : <small>The final price depends on your team size and booking volume. We confirm it before you pay.</small>}
+        {step > 0 ? <button type="button" className="btn btn-ghost" onClick={() => setStep((s) => s - 1)}>Back</button> : <small>You can change plan later. Need custom integrations or high volume? Ask about Enterprise.</small>}
         <button className="btn btn-primary" disabled={r.status === "sending"}>
           {step === 0 ? "Continue to your details" : step === 1 ? "Review your order" : r.status === "sending" ? "Sending order" : "Send subscription request"}
         </button>

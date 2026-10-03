@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { validate, toText, type Kind, type Values } from "@/lib/requests";
 import { createCheckout } from "@/lib/checkout";
-import type { PlanId } from "@/lib/site";
+import type { PlanId, Billing } from "@/lib/site";
 
 export const runtime = "nodejs";
 
@@ -47,6 +47,6 @@ export async function POST(req: Request) {
     console.error("Request email failed", e instanceof Error ? e.message : e);
     return NextResponse.json({ ok: false, reason: "SEND_FAILED" }, { status: 502 });
   }
-  if (kind === "subscribe") return NextResponse.json({ ok: true, checkout: await createCheckout({ plan: values.plan as PlanId, email: values.email, company: values.company }) });
+  if (kind === "subscribe") return NextResponse.json({ ok: true, checkout: await createCheckout({ plan: values.plan as PlanId, billing: values.billing as Billing, email: values.email, company: values.company }) });
   return NextResponse.json({ ok: true });
 }

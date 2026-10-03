@@ -359,3 +359,35 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sticky-cta.show { transform: none; }
 @media (max-width: 760px) { .sticky-cta { display: flex; } }
 @media (min-width: 900px) { .hero h1 .l2 { white-space: nowrap; } }
+
+/* Plans */
+.bill-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-bottom: 28px; }
+.bill-save { color: var(--teal-ink); font-weight: 600; font-size: .98rem; }
+.plans { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+.plan { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 28px 26px 30px; display: flex; flex-direction: column; }
+.plan h3 { font-size: 1.5rem; }
+.plan-for { color: var(--muted); font-size: .97rem; margin-top: 4px; min-height: 1.6em; }
+.plan-price { display: flex; align-items: baseline; gap: 8px; margin-top: 22px; }
+.plan-price b { font-family: var(--display); font-size: 3.4rem; line-height: 1; letter-spacing: -0.04em; font-weight: 650; color: var(--navy); font-variant-numeric: tabular-nums; }
+.plan-price span { font-family: var(--display); color: var(--muted); font-size: 1.05rem; }
+.plan-alt { color: var(--muted); font-size: .93rem; margin: 8px 0 22px; }
+.plan .btn { width: 100%; }
+.plan-intro { margin-top: 24px; font-weight: 600; color: var(--navy); }
+.plan .ticks { grid-template-columns: minmax(0, 1fr); margin-top: 12px; gap: 9px; }
+.nots { margin-top: 9px; display: grid; gap: 9px; }
+.nots li { position: relative; padding-left: 28px; color: var(--muted); line-height: 1.45; }
+.nots li::before { content: ""; position: absolute; left: 3px; top: .72em; width: 12px; height: 2px; background: #9AA7B2; }
+.plan.main { background: var(--navy); border-color: var(--navy); color: #DCE6EE; box-shadow: 0 40px 70px -36px rgba(16,42,67,.8); }
+.plan.main h3, .plan.main .plan-price b, .plan.main .plan-intro { color: #fff; }
+.plan.main .plan-for, .plan.main .plan-price span, .plan.main .plan-alt { color: #B4C4D2; }
+.plan.main .ticks li::before { border-color: #4FD1CB; }
+.plan-flag { position: absolute; top: -13px; left: 26px; background: var(--orange); color: var(--navy-deep); font-family: var(--display); font-weight: 650; font-size: .86rem; padding: 4px 12px; border-radius: 999px; }
+.enterprise { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; justify-content: space-between; border: 1.5px dashed rgba(16,42,67,.25); border-radius: 20px; padding: 22px 26px; }
+.enterprise h3 { font-size: 1.3rem; }
+.enterprise p { color: var(--muted); margin-top: 2px; }
+@media (min-width: 940px) { .plans { grid-template-columns: repeat(3, minmax(0, 1fr)); } .plan.main { margin-block: -14px; padding-block: 42px 44px; } }
+.choice.three { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .choice.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.step-sub { font-family: var(--display); font-weight: 600; color: var(--navy); margin: 22px 0 10px; }
+.choice.three .p { font-size: 1.7rem; }
+.choice.three .p small { display: block; font-size: .92rem; margin-bottom: 6px; }

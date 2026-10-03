@@ -18,7 +18,7 @@ npm run typecheck && npm run build
 - `RESEND_API_KEY`, `REQUESTS_FROM`, `REQUESTS_TO`: email delivery for both forms. Until these are set, the forms give the visitor a ready-written WhatsApp message instead, so nothing is lost and nothing is faked.
 
 ## Where things live
-- `src/lib/site.ts`: name, prices, contact number.
+- `src/lib/site.ts`: name, contact number, and the plans (Starter, Growth, Business) with their prices and feature lists.
 - `src/lib/checkout.ts`: the single place to connect a payment provider. Return `{ mode: "redirect", url }` and the subscribe flow sends the customer to checkout. Today it returns `manual` (invoice by hand); no payment is ever confirmed on the site.
 - `src/components/Explorer.tsx`: the feature list. Every point describes something the product does today.
 - `public/shots/`: real screenshots of the product (Toursystem-Saas) running with sample data and the Toursside colours. Retake them after a product redesign.

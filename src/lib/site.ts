@@ -12,7 +12,28 @@ export const SITE = {
 export const whatsappLink = (text: string) => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
 
 export const PLANS = {
-  monthly: { id: "monthly", label: "Monthly", price: 50, per: "month", note: "Billed every month" },
-  annual: { id: "annual", label: "Annual", price: 500, per: "year", note: "Billed once a year, the same as ten months of monthly billing" },
+  starter: {
+    name: "Starter", monthly: 39, annual: 390, target: "Small agencies and new operators",
+    intro: "The essentials, with smaller limits.",
+    features: ["Bookings and customer CRM", "2 users", "Limited monthly bookings", "Invoices and documents", "Mobile access"],
+    without: ["No advanced integrations"],
+  },
+  growth: {
+    name: "Growth", monthly: 79, annual: 790, target: "Serious travel agencies",
+    intro: "The complete platform.",
+    features: ["Unlimited bookings", "Customer CRM", "Tours and products", "Suppliers and service costs", "Corporate requests", "Payments", "Invoices and documents", "Booking-source management", "Admin dashboard", "Mobile access", "Notifications", "Basic reporting"],
+    without: [],
+  },
+  business: {
+    name: "Business", monthly: 149, annual: 1490, target: "Larger agencies and DMCs",
+    intro: "Everything in Growth, plus:",
+    features: ["More users", "Higher or unlimited operational limits", "Advanced reporting", "Advanced integrations", "Priority support", "AI features as they become available"],
+    without: [],
+  },
 } as const;
 export type PlanId = keyof typeof PLANS;
+export const PLAN_IDS = Object.keys(PLANS) as PlanId[];
+export const MAIN_PLAN: PlanId = "growth";
+export type Billing = "monthly" | "annual";
+export const priceOf = (plan: PlanId, billing: Billing) => PLANS[plan][billing];
+export const perOf = (billing: Billing) => (billing === "annual" ? "year" : "month");
