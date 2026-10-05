@@ -148,7 +148,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .ex-tab[aria-selected="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
 .ex-tab small { display: none; }
 .ex-panel { min-width: 0; }
-.ex-shot { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(16,42,67,.12); box-shadow: var(--shadow); background: #EFEDE8; aspect-ratio: 1490 / 1125; }
+.ex-shot { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(16,42,67,.12); box-shadow: var(--shadow); background: #EFEDE8; aspect-ratio: 2360 / 1782; }
 .ex-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: 0; transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.2,1); transform: scale(1.02); }
 .ex-shot img.on { opacity: 1; transform: none; }
 .ex-body { margin-top: 26px; display: grid; gap: 10px 32px; grid-template-columns: minmax(0, 1fr); }

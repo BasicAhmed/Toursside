@@ -132,9 +132,9 @@ export default async function Home() {
             </ul>
           </div>
           <div className="phones">
-            <div className="phone"><Image src="/shots/m-orders-all.webp" alt="Orders list on a phone" width={600} height={1298} sizes="(min-width: 960px) 210px, 30vw" /></div>
-            <div className="phone"><Image src="/shots/m-order-payment.webp" alt="An order's payment tab on a phone, showing cost, profit and balance" width={600} height={1298} sizes="(min-width: 960px) 210px, 30vw" /></div>
-            <div className="phone"><Image src="/shots/m-order-operations.webp" alt="An order's operations tab on a phone, with the assigned guide and language" width={600} height={1298} sizes="(min-width: 960px) 210px, 30vw" /></div>
+            <div className="phone"><Image src={SHOTS.phoneOrders.src} alt={SHOT_ALT.phoneOrders} width={SHOTS.phoneOrders.w} height={SHOTS.phoneOrders.h} sizes="(min-width: 960px) 210px, 30vw" /></div>
+            <div className="phone"><Image src={SHOTS.phonePayment.src} alt={SHOT_ALT.phonePayment} width={SHOTS.phonePayment.w} height={SHOTS.phonePayment.h} sizes="(min-width: 960px) 210px, 30vw" /></div>
+            <div className="phone"><Image src={SHOTS.phoneOperations.src} alt={SHOT_ALT.phoneOperations} width={SHOTS.phoneOperations.w} height={SHOTS.phoneOperations.h} sizes="(min-width: 960px) 210px, 30vw" /></div>
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { HERO } from "@/lib/shots";
 
 // The hero film: 18 seconds, silent, loops. It plays only while it is on screen, and stays on its poster frame for
 // visitors who ask for reduced motion.
@@ -14,10 +15,10 @@ export default function HeroVideo() {
     return () => io.disconnect();
   }, []);
   return (
-    <video ref={ref} className="hero-video" width={1600} height={1000} autoPlay muted loop playsInline preload="metadata" poster="/video/hero-poster.webp"
+    <video ref={ref} className="hero-video" width={HERO.w} height={HERO.h} autoPlay muted loop playsInline preload="metadata" poster={HERO.poster}
       aria-label="A short film of Toursside: bookings from the website, WhatsApp, email, phone and Viator arrive in one orders list, an order is opened to show its five steps, the finance page shows revenue and profit, and the same order is shown on a phone.">
-      <source src="/video/hero.mp4" type="video/mp4" />
-      <source src="/video/hero.webm" type="video/webm" />
+      <source src={HERO.mp4} type="video/mp4" />
+      <source src={HERO.webm} type="video/webm" />
     </video>
   );
 }

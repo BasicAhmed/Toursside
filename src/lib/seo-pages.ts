@@ -1,6 +1,6 @@
 // Search landing pages. Every claim here describes something Toursside does today; region pages describe how the
 // product fits how travel companies in that place work, and never claim customers there.
-import type { ShotKey } from "./shots";
+import { SHOT_ALT, type ShotKey } from "./shots";
 import { SELL } from "./seo-pages-sell";
 export type Faq = { q: string; a: string };
 // group: "core" pages are the parts of the system; "sell" pages are the things an agency sells with it.
@@ -13,7 +13,7 @@ const CORE: Solution[] = [
     slug: "tour-booking-software", group: "core", nav: "Tour booking software",
     title: "Tour booking software for travel agencies and tour operators", description: "Toursside is tour booking software that puts website, WhatsApp, email, phone and Viator bookings in one orders list, with payments, invoices and itineraries attached.",
     h1: "Tour booking software that keeps every booking in one list", intro: "Bookings reach a travel company from many directions at once. Toursside is a tour booking system that collects them in one place, shows what each one is waiting for, and carries it through to payment and the trip itself.",
-    shots: [["orders", "Toursside orders list with bookings from the website, WhatsApp, phone, email and Viator"]],
+    shots: [["orders", SHOT_ALT.orders]],
     points: [["Every channel in one list", "Website bookings arrive on their own. WhatsApp, email, phone and Viator bookings are added in under a minute and tagged with their source."], ["Stages you can filter", "To do, awaiting payment, confirmed and completed, each with a live count."], ["One next step per order", "Price, invoice, payment, itinerary, trip done. The order always shows what to do next and why."], ["Custom trips too", "Sell a one-off trip that is not on your website, priced from its cost and your margin."], ["A tracking page for the customer", "Each customer can follow their booking with their booking ID."], ["Works on a phone", "Check today's orders or record a payment from anywhere."]],
     detail: [{ h: "More than tours on the same list", p: "The orders list is not limited to tours. Staff choose what the customer is buying, so flight tickets, hotels, visas and transfers are orders too, and a customer's bookings can be linked as a package. Fixed departures are handled as group tours, where each party is its own order and the seats left are counted for you." }],
     audience: ["Tour operators selling day tours and multi-day packages", "Travel agencies taking bookings from several channels", "Teams that want one list instead of chats, inboxes and spreadsheets"],
@@ -25,7 +25,7 @@ const CORE: Solution[] = [
     slug: "travel-crm", group: "core", nav: "Travel CRM",
     title: "Travel CRM for tour operators and travel agencies", description: "A travel CRM built into your booking system: inquiries, customer cards, repeat guests, follow-up, reviews and referrals, all linked to the order.",
     h1: "A travel CRM that is part of the booking, not beside it", intro: "Most CRMs are built for selling software. A travel company needs to know who asked, who booked, who paid and who came back. In Toursside the customer record lives on the order, so nothing is copied between tools.",
-    shots: [["inquiries", "Toursside inquiries list with open, booked and lost inquiries"]],
+    shots: [["inquiries", "Toursside inquiries list with tabs for open, booked and lost, what each person asked, their contact details and status"]],
     points: [["One inbox for inquiries", "Questions, trip requests and unfinished checkouts from your website, with a count of how many are waiting."], ["A customer card on every order", "Name, contact, country and nationality, editable at any time."], ["Repeat guests recognised", "Returning customers are matched by email or phone, so their history stays together."], ["Email or phone is enough", "Add a customer with whichever you have; fill in the rest later."], ["Reviews after the trip", "Send a review invite when the trip is done."], ["Referral codes", "Happy guests get a code to share, with a reward balance tracked per customer."]],
     audience: ["Agencies with repeat guests and referrals", "Sales teams answering inquiries from the website and WhatsApp", "Owners who want customer history in one place"],
     steps: ["An inquiry arrives and appears in Inquiries with its source.", "Your team replies by WhatsApp, call or email from the same screen, and turns it into an order.", "After the trip, the guest is invited to review and given a referral code."],
@@ -60,7 +60,7 @@ const CORE: Solution[] = [
     slug: "dmc-software", group: "core", nav: "DMC and partner requests",
     title: "DMC software for ground handling and partner requests", description: "Software for destination management companies: handle requests from other agencies for transfers, tickets, guides, hotels and cruises, with cost, price and profit per request.",
     h1: "DMC software for the work other agencies send you", intro: "A destination management company arranges services on the ground for other travel companies. That work is priced and paid differently from a direct customer booking, so Toursside keeps it as its own kind of request.",
-    shots: [["corporate", "A Toursside partner request showing total cost, price charged, profit, payments and services"]],
+    shots: [["partnerRequest", "A Toursside partner request showing total cost, price charged, profit, payments and services"]],
     points: [["A request per partner job", "Company, contact, group size, dates and notes, separate from customer orders."], ["Ten kinds of service", "Transfers, transportation, airport services, entrance tickets, permits, felucca, motor boat, tour guides, hotels and Nile cruises, plus your own."], ["Supplier and cost per service", "Record who provides each service, what it costs you and what you charge."], ["Two ways to price", "Price each service, or add one service-fee percentage on top of the total cost."], ["Invoice and payments", "Send a partner invoice and record what has been paid."], ["Counted in finance", "Partner revenue and profit flow into the same monthly report."]],
     audience: ["Destination management companies and ground handlers", "Tour operators who also serve other agencies", "Teams pricing several services into one partner invoice"],
     steps: ["A partner agency sends a request; you create it with the services needed.", "Add each service with its supplier, cost, date and time, and confirm them one by one.", "Send the invoice, record the payment, and mark the request complete."],
@@ -71,7 +71,7 @@ const CORE: Solution[] = [
     slug: "tour-operator-website-booking", group: "core", nav: "Booking on your website",
     title: "Add tour booking to your travel website", description: "Add a booking engine to an existing travel website with one line of code, or use the booking pages Toursside gives you. WordPress, Wix, Squarespace and custom sites.",
     h1: "Add tour booking to the website you already have", intro: "You do not need a new website to take bookings online. Toursside gives every company booking pages for its tours, and a small piece of code that shows those tours inside an existing site.",
-    shots: [["tours", "Toursside tours list with live tours, prices per person and booking counts"]],
+    shots: [["tours", "Toursside tours list with live tours, destinations, prices per person and booking counts"]],
     points: [["One line of code", "Paste it into a page and your tours appear as cards with photo, length and price."], ["Always up to date", "Edit a tour once in Toursside; your website shows the change."], ["One tour or all of them", "Show the whole catalogue, the first few, or a single tour on its own page."], ["Or just a link", "Point any Book now button at a tour's booking page."], ["A booking flow built for phones", "Date, travellers, extras and a clear total, then a confirmation with a booking ID."], ["Straight into your orders", "Every website booking lands in your orders list, tagged Website."]],
     audience: ["Tour operators with a website that cannot take bookings yet", "Agencies on WordPress, Wix or Squarespace", "New operators who need booking pages without building a site"],
     steps: ["Add your tours in Toursside with photos, length and price.", "Copy the code from Add to your website and paste it into your site.", "Bookings arrive in your orders list and your team is alerted by email."],

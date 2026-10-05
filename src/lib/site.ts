@@ -21,7 +21,7 @@ export const PLANS = {
   growth: {
     name: "Growth", monthly: 79, annual: 790, target: "Serious travel agencies",
     intro: "The complete platform.",
-    features: ["Unlimited bookings", "Flight, hotel, visa and transport orders", "Group tours and passenger manifests", "Customer CRM", "Tours and products", "Suppliers and service costs", "Corporate requests", "Payments", "Invoices and documents", "Booking-source management", "Finance and reports", "Reviews and referrals", "Tours on your own website", "Notifications", "5 staff accounts"],
+    features: ["Unlimited bookings", "Flight, hotel, visa and transport orders", "Group tours and passenger manifests", "Customer CRM", "Tours and products", "Suppliers and service costs", "Partner requests", "Payments", "Invoices and documents", "Booking-source management", "Finance and reports", "Reviews and referrals", "Tours on your own website", "Notifications", "5 staff accounts"],
     without: [],
   },
   business: {
