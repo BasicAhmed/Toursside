@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import DemoForm from "@/components/DemoForm";
 
-export const metadata: Metadata = { title: "Book a demo", description: "See Toursside with your own kind of trips. Tell us about your travel business and we'll arrange a short demo.", alternates: { canonical: "/demo" } };
+export const metadata: Metadata = pageMeta({ title: "Book a demo", description: "See Toursside with your own kind of trips. Tell us about your travel business and we'll arrange a short demo.", path: "/demo" });
 
 export default function Demo() {
   return (

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import { whatsappLink } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Terms", description: "Terms for using the Toursside website and requesting a subscription.", alternates: { canonical: "/terms" } };
+export const metadata: Metadata = pageMeta({ title: "Terms", description: "Terms for using the Toursside website and requesting a subscription.", path: "/terms" });
 
 export default function Terms() {
   return (

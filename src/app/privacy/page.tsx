@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import { whatsappLink } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Privacy Policy", description: "How Toursside handles the information you send through this website.", alternates: { canonical: "/privacy" } };
+export const metadata: Metadata = pageMeta({ title: "Privacy Policy", description: "How Toursside handles the information you send through this website.", path: "/privacy" });
 
 export default function Privacy() {
   return (

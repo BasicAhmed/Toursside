@@ -33,5 +33,8 @@ instant demos open soon and the homepage keeps "Book a demo" as its main button.
 
 ## Search pages
 `/solutions/*` (what Toursside does) and `/regions/*` (how it fits travel companies in a country or region) are written in
-`src/lib/seo-pages.ts`. Each has its own title, description, canonical address, breadcrumb and FAQ data for search
+`src/lib/seo-pages.ts` (the parts of the system) and `src/lib/seo-pages-sell.ts` (group tours, flight, hotel, visa and
+transport orders, back office, document designs). Screenshots for these pages are listed in `src/lib/shots.ts`, the one
+place to swap them after a product redesign. `src/lib/meta.ts` builds each page's title, description, canonical and
+sharing tags, and `/llms.txt` is generated from the same data. Each has its own title, description, canonical address, breadcrumb and FAQ data for search
 engines, and all are in the sitemap. Keep every claim true to the product, and never claim customers in a place.

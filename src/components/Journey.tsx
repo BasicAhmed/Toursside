@@ -4,12 +4,12 @@ import Plane from "./Plane";
 
 const STOPS: [string, string][] = [
   ["An inquiry arrives", "A website form, a trip request or a message. It lands in Inquiries with a count on the menu."],
-  ["The order is created", "Website bookings create it themselves. For WhatsApp, email, phone or Viator, your team adds it and picks the source."],
+  ["The order is created", "Website bookings create it themselves. Otherwise your team adds it, picks the source and chooses what is being bought: a tour, flight ticket, hotel, visa or transport."],
   ["The trip is priced", "The itinerary's cost and your profit margin set the price per person, in the customer's currency."],
   ["The invoice goes out", "One button makes the invoice PDF with your bank details. Send it by email or WhatsApp."],
   ["Payment is recorded", "Deposit or full amount. The balance updates, and the team is alerted when the order is fully paid."],
   ["The itinerary is sent", "A day-by-day PDF for the guest, who can follow the booking on their own tracking page."],
-  ["The trip is prepared", "Travelers, passports, guide, driver, pickup time and flights, all on the same order."],
+  ["The trip is prepared", "Travelers, passports, guide, driver, pickup time and flights, all on the same order. A group departure gets its passenger manifest."],
   ["The trip is done", "Mark it completed. Its revenue, cost and profit are already in that month's finance."],
   ["Review and referral", "Send the review link. A referral code unlocks, so happy guests bring the next booking."],
 ];

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import SubscribeFlow from "@/components/SubscribeFlow";
 import { visitorCurrency } from "@/lib/visitor";
 import { instantEnabled, cardPayments } from "@/lib/instant";
 import { PLANS, MAIN_PLAN, type PlanId, type Billing } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Subscribe", description: "Start a Toursside subscription. Choose Starter, Growth or Business and tell us about your travel business.", alternates: { canonical: "/subscribe" } };
+export const metadata: Metadata = pageMeta({ title: "Subscribe", description: "Start a Toursside subscription. Choose Starter, Growth or Business and tell us about your travel business.", path: "/subscribe" });
 
 export default async function Subscribe({ searchParams }: { searchParams: Promise<{ plan?: string; billing?: string; currency?: string }> }) {
   const { plan, billing, currency } = await searchParams;

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/meta";
 import Link from "next/link";
 import StartForm from "@/components/StartForm";
 import { instantEnabled, TRIAL_DAYS } from "@/lib/instant";
 
-export const metadata: Metadata = { title: "Start your free demo", description: "Get your own Toursside workspace in seconds, with your company name and colours and sample orders to try.", alternates: { canonical: "/start" } };
+export const metadata: Metadata = pageMeta({ title: "Start your free demo", description: "Get your own Toursside workspace in seconds, with your company name and colours and sample orders to try.", path: "/start" });
 export const dynamic = "force-dynamic";
 
 export default function Start() {
