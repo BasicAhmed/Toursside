@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { validate, toText, type Kind, type Values } from "@/lib/requests";
 import { createCheckout } from "@/lib/checkout";
 import type { PlanId, Billing } from "@/lib/site";
+import { PRODUCT_API_URL, PROVISION_SECRET, instantEnabled } from "@/lib/instant";
 
 export const runtime = "nodejs";
 
@@ -29,6 +30,17 @@ export async function POST(req: Request) {
   const ip = (req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") || "local").split(",")[0].trim().slice(0, 64);
   if (limited(ip)) return NextResponse.json({ ok: false, reason: "RATE_LIMITED" }, { status: 429 });
 
+  // One email system: when the product is connected, it sends both emails (a formal acknowledgement to the requester,
+  // the details to the Toursside owner) and keeps them in its log. This site's own sending below is the fallback for
+  // when the product is not connected, cannot be reached, or has no email set up.
+  const done = () => (kind === "subscribe" ? createCheckout({ plan: values.plan as PlanId, billing: values.billing as Billing, email: values.email, company: values.company }).then((checkout) => NextResponse.json({ ok: true, checkout })) : Promise.resolve(NextResponse.json({ ok: true })));
+  if (instantEnabled()) {
+    try {
+      const r = await fetch(`${PRODUCT_API_URL}/api/platform/request`, { method: "POST", cache: "no-store", signal: AbortSignal.timeout(8000), headers: { Authorization: `Bearer ${PROVISION_SECRET}`, "Content-Type": "application/json" }, body: JSON.stringify({ kind, values }) });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j.ok && j.delivered) return done();
+    } catch (e) { console.error("Request hand-over to the product failed", e instanceof Error ? e.message : e); }
+  }
   const key = process.env.RESEND_API_KEY, from = process.env.REQUESTS_FROM, to = process.env.REQUESTS_TO;
   if (!key || !from || !to) return NextResponse.json({ ok: false, reason: "NOT_CONFIGURED" }, { status: 503 });
 
