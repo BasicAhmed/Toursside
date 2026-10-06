@@ -129,7 +129,7 @@ export default function SubscribeFlow({ initialPlan, initialBilling, currency = 
         note={wz.step === 0 ? <small>{currency !== "USD" ? <>{rateNote(currency)} </> : null}{instant ? "Already trying Toursside? Open your workspace and choose your plan there, so everything stays in one place." : "You can change plan later. Need custom integrations or high volume? Ask about Enterprise."}</small> : null}>
 
         <Step wz={wz} index={0} title="Choose your plan" sub="You are not charged on this page.">
-          <fieldset className="bill" id="f-billing" tabIndex={-1}>
+          <fieldset className="wz-bill" id="f-billing" tabIndex={-1}>
             <legend className="sr">Billing</legend>
             {(["monthly", "annual"] as Billing[]).map((b) => (
               <label key={b}>
@@ -138,13 +138,13 @@ export default function SubscribeFlow({ initialPlan, initialBilling, currency = 
               </label>
             ))}
           </fieldset>
-          <p className={`bill-save${billing === "annual" ? " on" : ""}`} aria-live="polite">
+          <p className={`wz-bill-save${billing === "annual" ? " on" : ""}`} aria-live="polite">
             {billing === "annual" ? <>You save <b>{fmt(currency)(save)}</b> a year on {P.name}, compared with paying monthly.</> : <>Pay yearly and save <b>{fmt(currency)(save)}</b> a year on {P.name}.</>}
           </p>
-          <fieldset className="plans" id="f-plan" tabIndex={-1}>
+          <fieldset className="wz-plans" id="f-plan" tabIndex={-1}>
             <legend className="sr">Plan</legend>
             {PLAN_IDS.map((id) => (
-              <label key={id} className="plan" data-plan={id}>
+              <label key={id} className="wz-plan" data-plan={id}>
                 <input type="radio" name="plan" value={id} checked={plan === id} tabIndex={wz.step === 0 ? undefined : -1} data-autofocus={plan === id ? "" : undefined} onChange={() => set("plan", id)} />
                 <b>{PLANS[id].name}</b>
                 <span className="p"><Count value={amount(id, billing, currency)} text={fmt(currency)} /> <small>per {perOf(billing)}</small></span>
