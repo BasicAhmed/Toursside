@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   if ((typeof b.password === "string" ? b.password : "").length < 8) errors.password = "Use at least 8 characters";
   if (Object.keys(errors).length) return NextResponse.json({ ok: false, code: "INVALID", errors }, { status: 422 });
   if (!instantEnabled()) return NextResponse.json({ ok: false, code: "NOT_CONFIGURED" }, { status: 503 });
-  const ip = (req.headers.get("x-forwarded-for") || "local").split(",")[0].trim();
+  const ip = (req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") || "local").split(",")[0].trim().slice(0, 64);
   if (limited(ip)) return NextResponse.json({ ok: false, code: "RATE_LIMITED", message: "You've started several demos in the last hour. Try again later, or book a demo with us." }, { status: 429 });
 
   try {

@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   const errors = validate(kind, values);
   if (Object.keys(errors).length) return NextResponse.json({ ok: false, reason: "INVALID", errors }, { status: 422 });
 
-  const ip = (req.headers.get("x-forwarded-for") || "local").split(",")[0].trim();
+  const ip = (req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") || "local").split(",")[0].trim().slice(0, 64);
   if (limited(ip)) return NextResponse.json({ ok: false, reason: "RATE_LIMITED" }, { status: 429 });
 
   const key = process.env.RESEND_API_KEY, from = process.env.REQUESTS_FROM, to = process.env.REQUESTS_TO;
