@@ -4,7 +4,7 @@ import { isCurrency, money, moneyYear } from "./currency";
 // Field definitions shared by the forms, the server route and the WhatsApp fallback, so all three always agree.
 export const DEMO_FIELDS = [
   ["name", "Name"], ["company", "Company"], ["email", "Email"], ["phone", "Phone / WhatsApp"], ["country", "Country"],
-  ["team", "Team size"], ["volume", "Bookings per month"], ["current", "Current system"], ["goal", "Wants to improve"], ["time", "Preferred demo time"],
+  ["sells", "Sells"], ["team", "Team size"], ["volume", "Bookings per month"], ["current", "Current system"], ["goal", "Wants to improve"], ["time", "Preferred demo time"],
 ] as const;
 export const SUBSCRIBE_FIELDS = [
   ["plan", "Plan"], ["company", "Company"], ["name", "Contact name"], ["email", "Email"], ["phone", "Phone / WhatsApp"],

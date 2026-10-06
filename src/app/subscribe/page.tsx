@@ -15,14 +15,13 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
   const initial: PlanId = plan && plan in PLANS ? (plan as PlanId) : MAIN_PLAN;
   const initialBilling: Billing = billing === "monthly" ? "monthly" : "annual";
   return (
-    <div className="wrap">
+    <div className="wrap wz-page">
       <div className="page-head">
         <h1>Start your subscription</h1>
-        <p className="lede">Three short steps. You are not charged on this page.</p>
+        <p className="lede">Four short steps. You are not charged on this page.</p>
       </div>
-      <div className="form-grid">
-        <SubscribeFlow initialPlan={initial} initialBilling={initialBilling} currency={cur} instant={instant} card={card} />
-        <aside className="aside">
+      <SubscribeFlow initialPlan={initial} initialBilling={initialBilling} currency={cur} instant={instant} card={card} />
+      <aside className="aside wz-aside">
           <h2>What happens next</h2>
           {instant && card ? <ol>
             <li><b>Your workspace opens</b><span>Created in seconds with your company name, ready to use.</span></li>
@@ -37,8 +36,7 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
             <li><b>Setup</b><span>Once it is paid, we set up your workspace with your name, logo and colours.</span></li>
             <li><b>Onboarding</b><span>You get your login and a walkthrough for your team.</span></li>
           </ol>}
-        </aside>
-      </div>
+      </aside>
     </div>
   );
 }

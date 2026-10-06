@@ -16,22 +16,20 @@ export default function Start() {
     </div></div>
   );
   return (
-    <div className="wrap">
+    <div className="wrap wz-page">
       <div className="page-head">
         <h1>Start your free demo</h1>
         <p className="lede">Your own Toursside workspace, with your name and colours, ready in seconds. Free for {TRIAL_DAYS} days.</p>
       </div>
-      <div className="form-grid">
-        <StartForm />
-        <aside className="aside">
-          <h2>What you get</h2>
-          <ol>
-            <li><b>Your own address</b><span>A private workspace at yourcompany.toursside.com.</span></li>
-            <li><b>Sample orders to try</b><span>Orders, inquiries and a partner request are already there, so nothing is empty.</span></li>
-            <li><b>{TRIAL_DAYS} days to explore</b><span>Choose a plan when you're ready and keep everything you've added.</span></li>
-          </ol>
-        </aside>
-      </div>
+      <StartForm trialDays={TRIAL_DAYS} />
+      <aside className="aside wz-aside">
+        <h2>What you get</h2>
+        <ol>
+          <li><b>Your own address</b><span>A private workspace at yourcompany.toursside.com.</span></li>
+          <li><b>Sample orders to try</b><span>Orders, inquiries and a partner request are already there, so nothing is empty.</span></li>
+          <li><b>{TRIAL_DAYS} days to explore</b><span>Choose a plan when you're ready and keep everything you've added.</span></li>
+        </ol>
+      </aside>
     </div>
   );
 }

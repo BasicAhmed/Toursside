@@ -18,6 +18,7 @@ export async function POST(req: Request) {
   if (s("website_url")) return NextResponse.json({ ok: false, code: "FAILED", message: "We couldn't create your demo just now." }, { status: 400 }); // honeypot
   const errors: Record<string, string> = {};
   if (s("company").length < 2) errors.company = "Enter your company name";
+  else if (s("company").length > 80) errors.company = "Keep it under 80 characters"; // the product cuts names at 80, so say so instead of shortening it silently
   if (!s("name")) errors.name = "Enter your name";
   if (!EMAIL.test(s("email"))) errors.email = "Enter an email address like name@company.com";
   if ((typeof b.password === "string" ? b.password : "").length < 8) errors.password = "Use at least 8 characters";
