@@ -8,8 +8,8 @@ export default function Demo() {
   return (
     <div className="wrap wz-page">
       <div className="page-head">
-        <h1>Book a demo</h1>
-        <p className="lede">Tell us a little about your travel business. We'll show you Toursside using the kind of trips you actually sell.</p>
+        <h1 className="duo md"><span className="thin">See Toursside</span><span className="bold">with your own trips.</span></h1>
+        <p className="lede">Tell us a little about your agency. We'll show you Toursside using the kind of trips you actually sell.</p>
       </div>
       <DemoForm />
       <aside className="aside wz-aside">

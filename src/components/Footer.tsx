@@ -9,20 +9,19 @@ export default function Footer() {
       <div className="wrap">
         <div className="footer-grid">
           <div>
-            <span className="lockup">
+            <Link href="/" className="lockup" aria-label="Toursside home">
               <Image src="/mark.png" alt="" width={182} height={160} />
               <Image src="/wordmark-light.png" alt="Toursside" width={253} height={44} />
-            </span>
-            <p style={{ maxWidth: "38ch" }}>One connected system for travel agencies and tour operators: tours, group departures, flight, hotel and visa orders, customers, itineraries, invoices and payments.</p>
+            </Link>
+            <p>One connected system for travel agencies and tour operators: tours, group departures, flight, hotel and visa orders, customers, itineraries, invoices and payments.</p>
           </div>
           <nav aria-label="Product">
             <h3>Product</h3>
             <ul>
-              <li><Link href="/#product">Features</Link></li>
-              <li><Link href="/#sells">Everything you sell</Link></li>
-              <li><Link href="/#journey">How a booking moves</Link></li>
-              <li><Link href="/#phone">On your phone</Link></li>
-              <li><Link href="/#next">What's next</Link></li>
+              <li><Link href="/#route">How a booking moves</Link></li>
+              <li><Link href="/#sell">Everything you sell</Link></li>
+              <li><Link href="/#fares">Pricing</Link></li>
+              <li><Link href="/#faq">Questions</Link></li>
             </ul>
           </nav>
           <nav aria-label="Solutions">
@@ -40,7 +39,6 @@ export default function Footer() {
           <nav aria-label="Get started">
             <h3>Get started</h3>
             <ul>
-              <li><Link href="/#pricing">Pricing</Link></li>
               <li><Link href="/demo">Book a demo</Link></li>
               <li><Link href="/start">Start a free demo</Link></li>
               <li><Link href="/subscribe">Subscribe</Link></li>
@@ -49,7 +47,7 @@ export default function Footer() {
           <nav aria-label="Company">
             <h3>Company</h3>
             <ul>
-              <li><a href={whatsappLink("Hello Toursside, I have a question.")} target="_blank" rel="noopener noreferrer">Contact us on WhatsApp</a></li>
+              <li><a href={whatsappLink("Hello Toursside, I have a question.")} target="_blank" rel="noopener noreferrer">WhatsApp us</a></li>
               <li><Link href="/privacy">Privacy Policy</Link></li>
               <li><Link href="/terms">Terms</Link></li>
             </ul>

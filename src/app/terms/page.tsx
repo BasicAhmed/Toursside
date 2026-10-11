@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMeta({ title: "Terms", description: "Terms
 export default function Terms() {
   return (
     <div className="wrap">
-      <div className="page-head"><h1>Terms</h1><p className="lede">Last updated 3 October 2026. These terms cover this website and how subscriptions begin.</p></div>
+      <div className="page-head"><h1 className="duo"><span className="thin">Terms</span><span className="bold">in plain words.</span></h1><p className="lede">Last updated 3 October 2026. These terms cover this website and how subscriptions begin.</p></div>
       <div className="prose">
         <h2>This website</h2>
         <p>The website describes Toursside as it works today. Screens are shown with sample data. Features described as planned are not available yet and may change.</p>

@@ -17,8 +17,8 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
   return (
     <div className="wrap wz-page">
       <div className="page-head">
-        <h1>Start your subscription</h1>
-        <p className="lede">Four short steps. You are not charged on this page.</p>
+        <h1 className="duo md"><span className="thin">Pick a fare.</span><span className="bold">Board today.</span></h1>
+        <p className="lede">Four short steps. <b>You are not charged on this page.</b></p>
       </div>
       <SubscribeFlow initialPlan={initial} initialBilling={initialBilling} currency={cur} instant={instant} card={card} />
       <aside className="aside wz-aside">

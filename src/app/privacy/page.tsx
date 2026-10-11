@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMeta({ title: "Privacy Policy", descriptio
 export default function Privacy() {
   return (
     <div className="wrap">
-      <div className="page-head"><h1>Privacy Policy</h1><p className="lede">Last updated 3 October 2026. This policy covers this website. Each Toursside customer's own workspace is covered by the agreement with that customer.</p></div>
+      <div className="page-head"><h1 className="duo"><span className="thin">Privacy Policy</span><span className="bold">in plain words.</span></h1><p className="lede">Last updated 3 October 2026. This policy covers this website. Each Toursside customer's own workspace is covered by the agreement with that customer.</p></div>
       <div className="prose">
         <h2>What we collect</h2>
         <p>When you request a demo or a subscription, we collect what you type into the form: your name, company, email, phone or WhatsApp number, country, and any optional details you choose to add, such as team size, booking volume and notes.</p>

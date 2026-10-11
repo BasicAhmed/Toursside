@@ -1,66 +1,99 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
-import { instantEnabled } from "@/lib/instant";
 import type { Faq } from "@/lib/seo-pages";
 import { SHOTS, type ShotKey } from "@/lib/shots";
+import Closing, { MainCta } from "./Closing";
 
 export function Faqs({ faqs }: { faqs: Faq[] }) {
-  return <div className="faqs">{faqs.map((f) => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>;
+  return <div className="faq">{faqs.map((f, i) => <details key={f.q} open={i === 0}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>;
 }
 export const faqLd = (faqs: Faq[]) => ({ "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) });
 export const crumbsLd = (trail: [string, string][]) => ({ "@type": "BreadcrumbList", itemListElement: trail.map(([name, path], i) => ({ "@type": "ListItem", position: i + 1, name, item: `${SITE.url}${path}` })) });
 
-// Shared shape of a search landing page: what it is, what it does, how it works, questions, next step.
-// Screenshots come from src/lib/shots.ts. Desktop shots stack full width; phone shots sit side by side in frames.
+/** A headline in the site's two weights: the opening words thin, the rest bold. Split where the sentence turns
+ *  ("Tour booking software | that keeps every booking in one list"); a short headline stays bold. */
+export function Duo({ text, as: Tag = "h1", size }: { text: string; as?: "h1" | "h2"; size?: "md" | "sm" }) {
+  const words = text.split(" ");
+  const at = words.findIndex((w, i) => i >= 2 && /^(that|for|built|with|which|where|in|across|from|to|on|and|so|without|instead)$/i.test(w));
+  const colon = text.indexOf(": ");
+  const [thin, bold] = colon > 0 ? [text.slice(0, colon + 1), text.slice(colon + 2)] : at > 0 && words.length > 4 ? [words.slice(0, at).join(" "), words.slice(at).join(" ")] : ["", text];
+  return <Tag className={`duo${size ? ` ${size}` : ""}`}>{thin ? <span className="thin">{thin}</span> : null}<span className="bold">{bold}</span></Tag>;
+}
+
+export function Crumbs({ trail }: { trail: [string, string][] }) {
+  return <nav aria-label="Breadcrumb" className="crumbs">{trail.map(([name, path], i) => i < trail.length - 1 ? <span key={path}><Link href={path}>{name}</Link> / </span> : <span key={path} aria-current="page">{name}</span>)}</nav>;
+}
+
+// Desktop shots stack full width; phone shots stand side by side in handsets.
 function Shots({ shots }: { shots: [ShotKey, string][] }) {
   const all = shots.map(([key, alt]) => ({ key, alt, ...SHOTS[key] }));
   const phones = all.filter((s) => "phone" in s && s.phone), desk = all.filter((s) => !("phone" in s && s.phone));
   return (
     <>
-      {desk.map((s, i) => <div key={s.key} className="shot seo-shot"><Image src={s.src} alt={s.alt} width={s.w} height={s.h} sizes="(min-width: 1180px) 1180px, 100vw" priority={i === 0} /></div>)}
-      {phones.length ? <div className="phones seo-phones">{phones.map((s, i) => <div key={s.key} className="phone"><Image src={s.src} alt={s.alt} width={s.w} height={s.h} sizes="(min-width: 960px) 230px, 45vw" priority={i === 0 && !desk.length} /></div>)}</div> : null}
+      {desk.map((s, i) => <figure key={s.key} className="shot"><Image src={s.src} alt={s.alt} width={s.w} height={s.h} sizes="(min-width: 1240px) 1240px, 100vw" priority={i === 0} /></figure>)}
+      {phones.length ? <div className="shot-phones">{phones.map((s, i) => <div key={s.key} className="handset"><Image src={s.src} alt={s.alt} width={s.w} height={s.h} sizes="(min-width: 960px) 250px, 30vw" priority={i === 0 && !desk.length} /></div>)}</div> : null}
     </>
   );
 }
 
+// Shared shape of a search landing page: what it is, what it does, how it works, questions, where to go next.
 export default function SeoPage({ crumbs, h1, intro, cards, cardsTitle, shots, detail, audience, steps, stepsTitle, faqs, related, relatedTitle, more, moreTitle, note, extra }: {
   crumbs: [string, string][]; h1: string; intro: string; cardsTitle: string; cards: [string, string][]; shots?: [ShotKey, string][];
   detail?: { h: string; p: string }[]; audience?: string[]; stepsTitle?: string; steps?: string[]; faqs: Faq[];
   relatedTitle?: string; related?: [string, string, string][]; moreTitle: string; more: [string, string][]; note?: string;
   extra?: { title: string; text: string; links: [string, string][] };
 }) {
-  const instant = instantEnabled();
   const ld = { "@context": "https://schema.org", "@graph": [crumbsLd(crumbs), faqLd(faqs)] };
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <div className="wrap">
-        <nav aria-label="Breadcrumb" className="crumbs">{crumbs.map(([name, path], i) => i < crumbs.length - 1 ? <span key={path}><Link href={path}>{name}</Link> / </span> : <span key={path} aria-current="page">{name}</span>)}</nav>
-        <div className="page-head" style={{ paddingTop: 18 }}>
-          <h1 style={{ maxWidth: "22ch" }}>{h1}</h1>
-          <p className="lede">{intro}</p>
-          <div className="cta-row">
-            {instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}
-            <Link href="/#pricing" className="btn btn-ghost">See pricing</Link>
-          </div>
-        </div>
+      <section className="page-hero"><div className="wrap">
+        <Crumbs trail={crumbs} />
+        <Duo text={h1} />
+        <p className="lede">{intro}</p>
+        <div className="cta-row"><MainCta /><Link href="/#fares" className="btn btn-ghost">See pricing</Link></div>
         {shots?.length ? <Shots shots={shots} /> : null}
-        <section className="seo-sec"><h2>{cardsTitle}</h2>
-          <div className="seo-cards">{cards.map(([t, d]) => <div key={t}><h3>{t}</h3><p>{d}</p></div>)}</div>
-          {note ? <p className="seo-note">{note}</p> : null}</section>
-        {extra ? <section className="seo-sec"><h2>{extra.title}</h2><p className="seo-text">{extra.text}</p><ul className="seo-more" style={{ marginTop: 18 }}>{extra.links.map(([name, path]) => <li key={path}><Link href={path}>{name}</Link></li>)}</ul></section> : null}
-        {detail?.map((d) => <section key={d.h} className="seo-sec"><h2>{d.h}</h2><p className="seo-text">{d.p}</p></section>)}
-        {audience?.length ? <section className="seo-sec"><h2>Who it is for</h2><ul className="ticks seo-ticks">{audience.map((a) => <li key={a}>{a}</li>)}</ul></section> : null}
-        {steps ? <section className="seo-sec"><h2>{stepsTitle}</h2><ol className="seo-steps">{steps.map((s) => <li key={s}>{s}</li>)}</ol></section> : null}
-        <section className="seo-sec"><h2>Questions</h2><Faqs faqs={faqs} /></section>
-        {related?.length ? <section className="seo-sec"><h2>{relatedTitle}</h2><ul className="seo-index seo-related">{related.map(([name, text, path]) => <li key={path}><Link href={path}><b>{name}</b><span>{text}</span></Link></li>)}</ul></section> : null}
-        <section className="seo-sec"><h2>{moreTitle}</h2><ul className="seo-more">{more.map(([name, path]) => <li key={path}><Link href={path}>{name}</Link></li>)}</ul></section>
-      </div>
-      <section className="closing on-dark" style={{ marginTop: 40 }}><div className="wrap">
-        <h2>See it with your own kind of trips.</h2><p>A demo workspace is ready in seconds. Works on a computer and a phone.</p>
-        <div className="cta-row">{instant ? <Link href="/start" className="btn btn-primary">Start your free demo</Link> : <Link href="/demo" className="btn btn-primary">Book a demo</Link>}<Link href="/" className="btn btn-ghost">How Toursside works</Link></div>
       </div></section>
+
+      <section className="sec"><div className="wrap">
+        <div className="sec-head"><Duo text={cardsTitle} as="h2" size="sm" /></div>
+        <ul className="points">{cards.map(([t, d]) => <li key={t}><h3>{t}</h3><p>{d}</p></li>)}</ul>
+        {note ? <p className="note-line">{note}</p> : null}
+      </div></section>
+
+      {extra ? <section className="sec"><div className="wrap two-col">
+        <p className="pull-h">{extra.title}</p>
+        <div><p className="pull">{extra.text}</p><ul className="tags" style={{ marginTop: 24 }}>{extra.links.map(([name, path]) => <li key={path}><Link href={path}>{name}</Link></li>)}</ul></div>
+      </div></section> : null}
+
+      {detail?.map((d) => <section key={d.h} className="sec"><div className="wrap two-col"><p className="pull-h">{d.h}</p><p className="pull">{d.p}</p></div></section>)}
+
+      {audience?.length ? <section className="sec"><div className="wrap">
+        <div className="sec-head"><h2 className="duo sm"><span className="thin">Who it is</span><span className="bold">for.</span></h2></div>
+        <ul className="who">{audience.map((a) => <li key={a}>{a}</li>)}</ul>
+      </div></section> : null}
+
+      {steps?.length ? <section className="sec"><div className="wrap">
+        <div className="sec-head">{stepsTitle === "How it works" || !stepsTitle ? <h2 className="duo sm"><span className="thin">How it</span><span className="bold">works.</span></h2> : <Duo text={stepsTitle} as="h2" size="sm" />}</div>
+        <ol className="how">{steps.map((s, i) => <li key={s}><span className="n" aria-hidden="true">{i + 1}</span><p>{s}</p></li>)}</ol>
+      </div></section> : null}
+
+      <section className="sec"><div className="wrap two-col">
+        <h2 className="duo sm"><span className="thin">Questions</span><span className="bold">people ask.</span></h2>
+        <Faqs faqs={faqs} />
+      </div></section>
+
+      <section className="sec"><div className="wrap">
+        {related?.length ? <>
+          <div className="group-h"><h2>{relatedTitle}</h2></div>
+          <ul className="stops-list">{related.map(([name, text, path]) => <li key={path}><Link href={path}><b>{name}</b><span>{text}</span><i aria-hidden="true" /></Link></li>)}</ul>
+          <div className="group-h" style={{ marginTop: 48 }}><h2>{moreTitle}</h2></div>
+        </> : <div className="group-h"><h2>{moreTitle}</h2></div>}
+        <ul className="tags">{more.map(([name, path]) => <li key={path}><Link href={path}>{name}</Link></li>)}</ul>
+      </div></section>
+
+      <Closing />
     </>
   );
 }

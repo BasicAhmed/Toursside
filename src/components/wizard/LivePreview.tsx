@@ -60,18 +60,26 @@ export function handoffBox(app: HTMLElement | null, strip: HTMLElement | null) {
 export function DemoPass({ name, company, country, sells, team, when, open }: { name: string; company: string; country: string; sells: string; team: string; when: string; open?: boolean }) {
   const first = name.trim().split(/\s+/)[0] || "";
   const cell = (label: string, value: string, wide = false) => <div className={`dp-c${wide ? " wide" : ""}${value ? " in" : ""}`}><dt>{label}</dt><dd key={value}>{value || <i />}</dd></div>;
+  const from = country.trim();
   return (
     <div className={`dp${open ? " open" : ""}`} aria-hidden="true">
       <div className="dp-top">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 2.5 2.8 9.6c-.7.3-.7 1.2 0 1.5l6.5 2.6 2.6 6.5c.3.7 1.2.7 1.5 0L21.5 2.5Z" /></svg>
-        <span><b>{company.trim() ? `Demo for ${company.trim()}` : "Your demo"}</b><small>{[sells, team && `${team} people`].filter(Boolean).join(" · ") || (first ? `With ${first}, on your kind of trips` : "A short walkthrough, on your kind of trips")}</small></span>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 11.2 21.5 3l-6.3 18-3.6-7.6z" /></svg>
+        <span><b>{company.trim() ? `Demo for ${company.trim()}` : "Your demo"}</b><small>{first ? `With ${first}, on your kind of trips` : "A short walkthrough, on your kind of trips"}</small></span>
       </div>
-      <div className="dp-body"><dl>
+      <div className="dp-route">
+        <div><small>From</small><b className={from ? "" : "empty"} key={from}>{from || "Your country"}</b></div>
+        <i />
+        <div className="to"><small>To</small><b>Toursside</b></div>
+      </div>
+      <dl>
         {cell("Guest", name.trim())}{cell("Agency", company.trim())}
-        {cell("Based in", country.trim())}{cell("Team", team)}
-        {cell("Sells", sells, true)}
-        {cell("When", when, true)}
-      </dl></div>
+        {cell("Team", /^\d/.test(team) ? `${team} people` : team)}{cell("Sells", sells)}
+      </dl>
+      <div className="dp-stub">
+        <div><small>Boarding</small><b>{when || "Pick a time on the last step"}</b></div>
+        <span className="barcode" />
+      </div>
     </div>
   );
 }

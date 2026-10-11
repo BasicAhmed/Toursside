@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export default function Start() {
   if (!instantEnabled()) return (
     <div className="wrap"><div className="page-head" style={{ paddingBottom: 120 }}>
-      <h1>Instant demos open soon</h1>
+      <h1 className="duo md"><span className="thin">Instant demos</span><span className="bold">open soon.</span></h1>
       <p className="lede">For now we set up each demo by hand. Tell us about your business and we'll show you Toursside.</p>
       <div className="cta-row"><Link href="/demo" className="btn btn-primary">Book a demo</Link></div>
     </div></div>
@@ -18,8 +18,8 @@ export default function Start() {
   return (
     <div className="wrap wz-page">
       <div className="page-head">
-        <h1>Start your free demo</h1>
-        <p className="lede">Your own Toursside workspace, with your name and colours, ready in seconds. Free for {TRIAL_DAYS} days.</p>
+        <h1 className="duo md"><span className="thin">Your workspace,</span><span className="bold">ready in seconds.</span></h1>
+        <p className="lede">Your own Toursside workspace with your name and colours, filled with sample orders. <b>Free for {TRIAL_DAYS} days.</b></p>
       </div>
       <StartForm trialDays={TRIAL_DAYS} />
       <aside className="aside wz-aside">

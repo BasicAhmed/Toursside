@@ -18,14 +18,16 @@ export function Wizard({ wz, names, onSubmit, label, busy, ready, side, note, af
   const n = names.length, step = wz.step;
   return (
     <div className="wz">
-      {side}
       <form ref={wz.root} className="wz-form panel" noValidate onSubmit={(e) => { e.preventDefault(); if (!busy) onSubmit(); }}>
         <div className="wz-head">
           <button type="button" className="wz-back" onClick={wz.back} disabled={step === 0 || busy} aria-label="Back to the previous step">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg><span>Back</span>
           </button>
-          <div className="wz-prog" role="progressbar" aria-label="Progress" aria-valuemin={1} aria-valuemax={n} aria-valuenow={step + 1} aria-valuetext={`Step ${step + 1} of ${n}: ${names[step]}`}>
-            {names.map((s, i) => <i key={s} className={i < step ? "done" : i === step ? "now" : ""} />)}
+          {/* The trip so far: a road through the steps, lit up to the current one, with the plane on it. */}
+          <div className="wz-road" role="progressbar" aria-label="Progress" aria-valuemin={1} aria-valuemax={n} aria-valuenow={step + 1} aria-valuetext={`Step ${step + 1} of ${n}: ${names[step]}`}>
+            <span className="lit" style={{ width: `${(step / Math.max(1, n - 1)) * 100}%` }} />
+            {names.map((s, i) => <i key={s} className={i < step ? "done" : i === step ? "now" : ""} style={{ left: `${(i / Math.max(1, n - 1)) * 100}%` }}><span aria-hidden="true">{s}</span></i>)}
+            <svg className="wz-plane" viewBox="-24 -24 48 48" aria-hidden="true" style={{ left: `${(step / Math.max(1, n - 1)) * 100}%` }}><path d="M-14 -13 L22 0 L-14 13 L-6 0 Z" fill="#FF8A3D" /></svg>
           </div>
           <span className="wz-count" aria-hidden="true"><b key={step}>{step + 1}</b> of {n}</span>
         </div>
@@ -39,6 +41,7 @@ export function Wizard({ wz, names, onSubmit, label, busy, ready, side, note, af
         </div>
         {note ? <div className="wz-note">{note}</div> : null}
       </form>
+      {side}
     </div>
   );
 }

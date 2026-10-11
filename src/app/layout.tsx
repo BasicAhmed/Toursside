@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SITE } from "@/lib/site";
+import { instantEnabled } from "@/lib/instant";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -17,14 +18,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: "Toursside: the operating system behind your travel business", description: SITE.description },
   robots: { index: true, follow: true },
 };
-export const viewport: Viewport = { themeColor: "#102A43", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#071827", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
         <a className="skip" href="#main">Skip to content</a>
-        <Header />
+        <Header instant={instantEnabled()} />
         <main id="main">{children}</main>
         <Footer />
       </body>
