@@ -27,11 +27,24 @@ export async function POST(req: Request) {
   const ip = (req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") || "local").split(",")[0].trim().slice(0, 64);
   if (limited(ip)) return NextResponse.json({ ok: false, code: "RATE_LIMITED", message: "You've started several demos in the last hour. Try again later, or book a demo with us." }, { status: 429 });
 
+  // Where the person is and which page they signed up on, for the Toursside owner's companies list. The country and
+  // city are what the hosting platform (Vercel) sees for the visitor's connection; the IP address itself is not sent.
+  const header = (k: string) => { try { return decodeURIComponent(req.headers.get(k) ?? "").trim(); } catch { return ""; } };
+  const country = /^[A-Z]{2}$/.test(header("x-vercel-ip-country")) ? header("x-vercel-ip-country") : "";
+  const city = header("x-vercel-ip-city").slice(0, 80);
+  let source = "";
+  try {
+    const ref = new URL(req.headers.get("referer") ?? "");
+    const page = ref.pathname === "/" ? "Home page" : ref.pathname.replace(/\/$/, "");
+    const utm = [ref.searchParams.get("utm_source"), ref.searchParams.get("utm_campaign")].filter(Boolean).join(" / ");
+    source = `${page}${utm ? ` (${utm})` : ""}`.slice(0, 80);
+  } catch { /* no referring page */ }
+
   try {
     const res = await fetch(`${PRODUCT_API_URL}/api/provision`, {
       method: "POST", cache: "no-store",
       headers: { Authorization: `Bearer ${PROVISION_SECRET}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ company: s("company"), name: s("name"), email: s("email"), password: b.password, theme: THEMES.some((t) => t.id === s("theme")) ? s("theme") : "ocean", phone: s("phone").slice(0, 40),
+      body: JSON.stringify({ company: s("company"), name: s("name"), email: s("email"), password: b.password, theme: THEMES.some((t) => t.id === s("theme")) ? s("theme") : "ocean", phone: s("phone").slice(0, 40), country, city, source,
         // Coming from the pricing page: the chosen plan travels with the sign-up, so the workspace opens on "how to pay".
         ...(["starter", "growth", "business"].includes(s("plan").toLowerCase()) ? { plan: s("plan"), billing: s("billing") === "annual" ? "annual" : "monthly", currency: s("currency").slice(0, 3) } : {}) }),
     });
