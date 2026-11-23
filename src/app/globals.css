@@ -399,7 +399,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .footer a:hover { color: var(--cloud); text-decoration: underline; text-underline-offset: 4px; }
 .footer-base { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--rule-dark); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; font-size: .88rem; opacity: .8; }
 @media (min-width: 560px) { .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1000px) { .footer-grid { grid-template-columns: minmax(0, 1.4fr) repeat(6, minmax(0, 1fr)); gap: 22px; } }
+@media (min-width: 1000px) { .footer-grid { grid-template-columns: minmax(0, 1.4fr) repeat(7, minmax(0, 1fr)); gap: 22px; } }
 
 /* ---------- Form pages (start, demo, subscribe): one shared wizard ---------- */
 .wz-page { padding-bottom: env(safe-area-inset-bottom); }
@@ -737,3 +737,22 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* ---------- Arabic pages (/ar) ----------
+   The same pages, right to left, with an Arabic-friendly font stack and no negative letter spacing (it breaks Arabic). */
+.ar { direction: rtl; font-family: var(--body, inherit), "Segoe UI", Tahoma, "Noto Sans Arabic", "Geeza Pro", sans-serif; }
+.ar :is(h1, h2, h3, .duo, summary) { font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", "Geeza Pro", var(--display), sans-serif; letter-spacing: 0; line-height: 1.25; }
+.ar .duo { font-size: clamp(2rem, 4.4vw, 3.8rem); }
+.ar .duo.sm { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+.ar .faq summary { padding: 22px 0 22px 48px; }
+.ar .faq summary::after { right: auto; left: 8px; transform: scaleX(-1); }
+.ar .lede, .ar p, .ar li { line-height: 1.75; }
+.ar .crumbs, .ar .cta-row, .ar .tags, .ar .points, .ar .how, .ar .who { direction: rtl; }
+.ar .price-cards { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; }
+@media (max-width: 860px) { .ar .price-cards { grid-template-columns: minmax(0, 1fr); } }
+.ar .price-card { border-radius: 20px; padding: 24px; background: rgb(255 255 255 / .04); box-shadow: inset 0 0 0 1px var(--rule-dark); }
+.ar .price-card.main { box-shadow: inset 0 0 0 2px var(--plane); }
+.ar .price-card h3 { font-size: 1.4rem; }
+.ar .price-card .amt { margin-top: 10px; font-size: 2rem; font-weight: 800; color: var(--cloud); }
+.ar .price-card ul { margin-top: 14px; display: grid; gap: 8px; color: var(--mist); }
+.lang-link { font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif; }

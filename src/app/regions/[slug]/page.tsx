@@ -3,13 +3,14 @@ import { notFound } from "next/navigation";
 import SeoPage from "@/components/SeoPage";
 import { SOLUTIONS, REGIONS } from "@/lib/seo-pages";
 import { pageMeta } from "@/lib/meta";
+import { arFor } from "@/lib/seo-ar";
 import { SHOT_ALT } from "@/lib/shots";
 
 export const dynamic = "force-dynamic";
 const find = (slug: string) => REGIONS.find((r) => r.slug === slug);
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const r = find((await params).slug); if (!r) return {};
-  return pageMeta({ title: r.title, fullTitle: `${r.title} | Toursside`, description: r.description, path: `/regions/${r.slug}`, type: "article" });
+  return pageMeta({ title: r.title, fullTitle: `${r.title} | Toursside`, description: r.description, path: `/regions/${r.slug}`, type: "article", languages: (() => { const ar = arFor(`/regions/${r.slug}`); return ar ? { en: `/regions/${r.slug}`, ar } : undefined; })() });
 }
 export default async function Region({ params }: { params: Promise<{ slug: string }> }) {
   const r = find((await params).slug); if (!r) notFound();

@@ -52,7 +52,7 @@ export default function SeoPage({ crumbs, h1, intro, cards, cardsTitle, shots, d
         <Crumbs trail={crumbs} />
         <Duo text={h1} />
         <p className="lede">{intro}</p>
-        <div className="cta-row"><MainCta /><Link href="/#fares" className="btn btn-ghost">See pricing</Link></div>
+        <div className="cta-row"><MainCta /><Link href="/pricing" className="btn btn-ghost">See pricing</Link></div>
         {shots?.length ? <Shots shots={shots} /> : null}
       </div></section>
 

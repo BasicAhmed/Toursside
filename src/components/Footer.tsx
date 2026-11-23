@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AR_PAGES } from "@/lib/seo-ar";
 import { SITE, whatsappLink } from "@/lib/site";
 import { SOLUTIONS, REGIONS } from "@/lib/seo-pages";
 
@@ -20,7 +21,7 @@ export default function Footer() {
             <ul>
               <li><Link href="/#route">How a booking moves</Link></li>
               <li><Link href="/#sell">Everything you sell</Link></li>
-              <li><Link href="/#fares">Pricing</Link></li>
+              <li><Link href="/pricing">Pricing</Link></li>
               <li><Link href="/#faq">Questions</Link></li>
             </ul>
           </nav>
@@ -35,6 +36,10 @@ export default function Footer() {
           <nav aria-label="Regions">
             <h3>Regions</h3>
             <ul>{REGIONS.map((x) => <li key={x.slug}><Link href={`/regions/${x.slug}`}>{x.nav}</Link></li>)}<li><Link href="/regions">All countries</Link></li></ul>
+          </nav>
+          <nav aria-label="بالعربية" lang="ar" dir="rtl" className="lang-link">
+            <h3>بالعربية</h3>
+            <ul><li><Link href="/ar">برنامج شركات السياحة</Link></li>{AR_PAGES.slice(1).map((x) => <li key={x.slug}><Link href={`/ar/${x.slug}`}>{x.nav}</Link></li>)}</ul>
           </nav>
           <nav aria-label="Get started">
             <h3>Get started</h3>

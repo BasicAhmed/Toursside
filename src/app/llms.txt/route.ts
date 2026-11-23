@@ -1,5 +1,6 @@
 import { SITE, PLANS, PLAN_IDS } from "@/lib/site";
 import { SOLUTIONS, REGIONS } from "@/lib/seo-pages";
+import { AR_PAGES } from "@/lib/seo-ar";
 
 // A plain-text summary of the product and its key pages for AI assistants and crawlers (llmstxt.org format).
 // Built from the same data as the pages, so it cannot drift from them.
@@ -23,7 +24,13 @@ ${REGIONS.map((r) => `- [${r.title}](${u}/regions/${r.slug}): ${r.description}`)
 ## Pricing
 ${PLAN_IDS.map((id) => `- ${PLANS[id].name}: $${PLANS[id].monthly} per month or $${PLANS[id].annual} per year. ${PLANS[id].target}.`).join("\n")}
 - Flight, hotel, visa and transport orders are included on every plan. Group tours and passenger manifests are included on Growth and Business.
-- [Plans and pricing](${u}/#pricing)
+- In Egypt, fixed prices in Egyptian pounds: Starter EGP 999, Growth EGP 1,999, Business EGP 3,999 per month, paid by card in pounds or by InstaPay, wallet or bank transfer.
+- Yearly plans cost ten months and include free setup; Growth and Business yearly also include a website redesign with SEO.
+- [Plans and pricing](${u}/pricing)
+
+## In Arabic (بالعربية)
+- [برنامج إدارة شركات السياحة والسفر](${u}/ar): the Arabic home page
+${AR_PAGES.map((p) => `- [${p.nav}](${u}/ar/${p.slug}): ${p.description}`).join("\n")}
 
 ## Get started
 - [Home](${u}/): overview of the product with real screens

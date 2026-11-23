@@ -3,12 +3,13 @@ import { notFound } from "next/navigation";
 import SeoPage from "@/components/SeoPage";
 import { SOLUTIONS, REGIONS, solutionBySlug } from "@/lib/seo-pages";
 import { pageMeta } from "@/lib/meta";
+import { arFor } from "@/lib/seo-ar";
 import { instantEnabled } from "@/lib/instant";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const s = solutionBySlug((await params).slug); if (!s) return {};
-  return pageMeta({ title: s.title, fullTitle: `${s.title} | Toursside`, description: s.description, path: `/solutions/${s.slug}`, type: "article" });
+  return pageMeta({ title: s.title, fullTitle: `${s.title} | Toursside`, description: s.description, path: `/solutions/${s.slug}`, type: "article", languages: (() => { const ar = arFor(`/solutions/${s.slug}`); return ar ? { en: `/solutions/${s.slug}`, ar } : undefined; })() });
 }
 export default async function Solution({ params }: { params: Promise<{ slug: string }> }) {
   const s = solutionBySlug((await params).slug); if (!s) notFound();
@@ -17,5 +18,5 @@ export default async function Solution({ params }: { params: Promise<{ slug: str
   return <SeoPage crumbs={[["Toursside", "/"], ["Solutions", "/solutions"], [s.nav, `/solutions/${s.slug}`]]} h1={s.h1} intro={s.intro} shots={s.shots}
     cardsTitle="What it does" cards={s.points} detail={s.detail} audience={s.audience} stepsTitle="How it works" steps={s.steps} faqs={s.faqs}
     relatedTitle="Related parts of Toursside" related={related}
-    moreTitle="More from Toursside" more={[...rest, ...REGIONS.slice(0, 4).map((r) => [`Tour operator software for ${r.name}`, `/regions/${r.slug}`] as [string, string]), ["Plans and pricing", "/#pricing"], instantEnabled() ? ["Start a free demo workspace", "/start"] : ["Book a demo", "/demo"]]} />;
+    moreTitle="More from Toursside" more={[...rest, ...REGIONS.slice(0, 4).map((r) => [`Tour operator software for ${r.name}`, `/regions/${r.slug}`] as [string, string]), ["Plans and pricing", "/pricing"], instantEnabled() ? ["Start a free demo workspace", "/start"] : ["Book a demo", "/demo"]]} />;
 }

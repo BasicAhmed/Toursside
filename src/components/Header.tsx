@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const LINKS = [["/#route", "How it works"], ["/#sell", "What you sell"], ["/#fares", "Pricing"], ["/solutions", "Solutions"]] as const;
+const LINKS = [["/#route", "How it works"], ["/#sell", "What you sell"], ["/pricing", "Pricing"], ["/solutions", "Solutions"], ["/ar", "العربية"]] as const;
 
 export default function Header({ instant = false }: { instant?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function Header({ instant = false }: { instant?: boolean }) {
           <span className="sr">{open ? "Close menu" : "Open menu"}</span>
         </button>
         <nav id="site-nav" className={`nav${open ? " open" : ""}`} aria-label="Main">
-          {LINKS.map(([href, label]) => <Link key={href} href={href} className="link" aria-current={here(href)} onClick={close}>{label}</Link>)}
+          {LINKS.map(([href, label]) => <Link key={href} href={href} className="link" aria-current={here(href)} onClick={close} {...(href === "/ar" ? { lang: "ar", hrefLang: "ar" } : {})}>{label}</Link>)}
           {instant ? <Link href="/demo" className="link" aria-current={here("/demo")} onClick={close}>Book a demo</Link> : null}
           {instant
             ? <Link href="/start" className="btn btn-primary btn-sm" onClick={close}>Start free demo</Link>
