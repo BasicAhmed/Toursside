@@ -42,7 +42,7 @@ export function moneyYear(monthlyUsd: number, code: CurrencyCode): string {
   return CURRENCIES[code].prefix + v.toLocaleString("en-US", { maximumFractionDigits: 1 });
 }
 export const rateNote = (code: CurrencyCode) => code === "USD" ? "" : LOCAL_PRICE[code]
-  ? `Prices in ${CURRENCIES[code].label}s are fixed. Pay locally by InstaPay, wallet or bank transfer.`
+  ? `Prices in ${CURRENCIES[code].label}s are fixed. Pay by card in pounds, or by InstaPay, wallet or bank transfer.`
   : CURRENCIES[code].fixed
   ? `Shown in ${CURRENCIES[code].label} at the fixed rate of ${CURRENCIES[code].rate} to the US dollar.`
   : `Shown in ${CURRENCIES[code].label} at about ${CURRENCIES[code].rate} to the US dollar. Your invoice confirms the exact amount.`;

@@ -12,8 +12,7 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
   const { plan, billing, currency } = await searchParams;
   const cur = await visitorCurrency(currency);
   const instant = instantEnabled();
-  // Test 1: pound prices (Egypt) are paid locally, not by card in dollars.
-  const card = instant && !LOCAL_PRICE[cur] && (await cardPayments());
+  const card = instant && (await cardPayments());
   const initial: PlanId = plan && plan in PLANS ? (plan as PlanId) : MAIN_PLAN;
   const initialBilling: Billing = billing === "monthly" ? "monthly" : "annual";
   return (
@@ -27,7 +26,7 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
           <h2>What happens next</h2>
           {instant && card ? <ol>
             <li><b>Your workspace opens</b><span>Created in seconds with your company name, ready to use.</span></li>
-            <li><b>You pay by card</b><span>On a secure payment page run by Stripe. Plans are charged in US dollars.</span></li>
+            <li><b>You pay by card</b><span>On a secure payment page run by Stripe. {LOCAL_PRICE[cur] ? "Plans are charged in Egyptian pounds, at the prices you see here." : "Plans are charged in US dollars."}</span></li>
             <li><b>Your plan starts</b><span>As soon as the payment goes through. Cancel any time from your workspace.</span></li>
           </ol> : instant ? <ol>
             <li><b>Your workspace opens</b><span>Created in seconds with your company name, ready to use.</span></li>

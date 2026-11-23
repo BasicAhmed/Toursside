@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { PLANS, PLAN_IDS, MAIN_PLAN, perOf, type Billing } from "@/lib/site";
-import { CURRENCIES, CURRENCY_CODES, money, moneyYear, rateNote, type CurrencyCode } from "@/lib/currency";
+import { CURRENCIES, CURRENCY_CODES, money, moneyYear, rateNote, LOCAL_PRICE, type CurrencyCode } from "@/lib/currency";
 
 // One boarding pass per plan: what it is for and what it includes on the left, the fare and the button on the stub.
 const LEG: Record<string, string> = { starter: "Up and running", growth: "The complete platform", business: "Larger teams and DMCs" };
@@ -51,7 +51,7 @@ export default function Pricing({ currency: initial = "USD", card = false }: { c
         })}
       </div>
       {cur !== "USD" ? <p className="rate-note">{rateNote(cur)}</p> : null}
-      {card ? <p className="rate-note">Pay by card on a secure page run by Stripe. {cur !== "USD" ? "Your card is charged in US dollars. " : ""}Cancel any time.</p> : null}
+      {card ? <p className="rate-note">Pay by card on a secure page run by Stripe. {LOCAL_PRICE[cur] ? "Your card is charged in Egyptian pounds, at these prices. " : cur !== "USD" ? "Your card is charged in US dollars. " : ""}Cancel any time.</p> : null}
       <div className="enterprise">
         <div>
           <h3>Enterprise</h3>

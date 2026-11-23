@@ -5,7 +5,7 @@ import { Sent, ViaWhatsApp } from "./Result";
 import { useRequest } from "./useRequest";
 import { PLANS, PLAN_IDS, priceOf, perOf, type PlanId, type Billing } from "@/lib/site";
 import { planLine } from "@/lib/requests";
-import { CURRENCIES, localAmount, money, moneyYear, rateNote, type CurrencyCode } from "@/lib/currency";
+import { CURRENCIES, localAmount, money, moneyYear, rateNote, LOCAL_PRICE, type CurrencyCode } from "@/lib/currency";
 import { COMPANY_MAX, previewSlug } from "@/lib/slug";
 import LivePreview, { handoffBox } from "./wizard/LivePreview";
 import { Wizard, Step, Field, Chips, Suggest, Strength, Count, TickIcon, emailHelp } from "./wizard/kit";
@@ -189,7 +189,7 @@ export default function SubscribeFlow({ initialPlan, initialBilling, currency = 
           </dl>
           {currency !== "USD" ? <p className="rate-note" style={{ margin: "0 0 12px" }}>{rateNote(currency)}</p> : null}
           {instant && card
-            ? <p className="notice">You are not charged on this page. Your workspace is created straight away, then a secure payment page opens to pay for your plan by card. Payment is handled by Stripe{currency !== "USD" ? `, and your card is charged in US dollars: $${priceOf(plan, billing).toLocaleString("en-US")} per ${perOf(billing)}` : ""}. Cancel any time.</p>
+            ? <p className="notice">You are not charged on this page. Your workspace is created straight away, then a secure payment page opens to pay for your plan by card. Payment is handled by Stripe{LOCAL_PRICE[currency] ? `, and your card is charged in Egyptian pounds: ${billing === "annual" ? moneyYear(PLANS[plan].monthly, currency) : money(PLANS[plan].monthly, currency)} per ${perOf(billing)}` : currency !== "USD" ? `, and your card is charged in US dollars: $${priceOf(plan, billing).toLocaleString("en-US")} per ${perOf(billing)}` : ""}. Cancel any time.</p>
             : instant
             ? <p className="notice">You are not charged now. Your workspace is created straight away and opens on a page that shows how to pay. Your plan starts when the payment is confirmed, and you can use the workspace in the meantime.</p>
             : <p className="notice">Card payment on this page is not open yet. Sending this order does not charge you. We reply with an invoice for the plan you chose, and your workspace is set up once it is paid.</p>}
