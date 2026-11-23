@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pageMeta } from "@/lib/meta";
 import SubscribeFlow from "@/components/SubscribeFlow";
 import { visitorCurrency } from "@/lib/visitor";
+import { LOCAL_PRICE } from "@/lib/currency";
 import { instantEnabled, cardPayments } from "@/lib/instant";
 import { PLANS, MAIN_PLAN, type PlanId, type Billing } from "@/lib/site";
 
@@ -11,7 +12,8 @@ export default async function Subscribe({ searchParams }: { searchParams: Promis
   const { plan, billing, currency } = await searchParams;
   const cur = await visitorCurrency(currency);
   const instant = instantEnabled();
-  const card = instant && (await cardPayments());
+  // Test 1: pound prices (Egypt) are paid locally, not by card in dollars.
+  const card = instant && !LOCAL_PRICE[cur] && (await cardPayments());
   const initial: PlanId = plan && plan in PLANS ? (plan as PlanId) : MAIN_PLAN;
   const initialBilling: Billing = billing === "monthly" ? "monthly" : "annual";
   return (

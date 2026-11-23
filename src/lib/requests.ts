@@ -1,5 +1,5 @@
 import { PLANS, priceOf, perOf, type PlanId, type Billing } from "./site";
-import { isCurrency, money, moneyYear } from "./currency";
+import { isCurrency, money, moneyYear, LOCAL_PRICE, type CurrencyCode } from "./currency";
 
 // Field definitions shared by the forms, the server route and the WhatsApp fallback, so all three always agree.
 export const DEMO_FIELDS = [
@@ -38,6 +38,8 @@ export function planLine(plan: string, billing: string, currency?: string) {
   const usd = priceOf(plan as PlanId, b);
   const m = PLANS[plan as PlanId].monthly;
   const local = isCurrency(currency) && currency !== "USD" ? `${b === "annual" ? moneyYear(m, currency) : money(m, currency)} (` : "";
+  // A fixed local price (Test 1, Egypt) is the price itself, not a conversion of the dollar one.
+  if (local && LOCAL_PRICE[currency as CurrencyCode]) return `${PLANS[plan as PlanId].name}, ${local.slice(0, -2)} per ${perOf(b)}`;
   return `${PLANS[plan as PlanId].name}, ${local}$${usd.toLocaleString("en-US")}${local ? ")" : ""} per ${perOf(b)}`;
 }
 
