@@ -9,7 +9,7 @@ export const CURRENCIES = {
   BHD: { label: "Bahraini dinar", prefix: "BD ", rate: 0.376, fixed: true },
   OMR: { label: "Omani rial", prefix: "OMR ", rate: 0.3845, fixed: true },
   KWD: { label: "Kuwaiti dinar", prefix: "KD ", rate: 0.307, fixed: false },
-  EGP: { label: "Egyptian pound", prefix: "EGP ", rate: 51.5, fixed: false },
+  EGP: { label: "Egyptian pound", prefix: "EGP ", rate: 53.5, fixed: false },
   EUR: { label: "Euro", prefix: "€", rate: 0.877, fixed: false },
   GBP: { label: "British pound", prefix: "£", rate: 0.758, fixed: false },
 } as const;
@@ -23,7 +23,11 @@ export const currencyForCountry = (country: string | null | undefined): Currency
 
 // A dollar price in another currency, rounded to a clean figure: whole numbers, or one decimal for high-value
 // currencies such as the Kuwaiti dinar.
+// Test 1 (from 24 November 2026): fixed monthly prices in Egyptian pounds, about half the dollar price, paid locally.
+// Keyed by the plan's monthly dollar price. Keep in step with Toursystem's src/lib/plan-currency.ts (LOCAL_PRICE).
+export const LOCAL_PRICE: Partial<Record<CurrencyCode, Record<number, number>>> = { EGP: { 39: 999, 79: 1999, 149: 3999 } };
 export function localAmount(usd: number, code: CurrencyCode): number {
+  const fixed = LOCAL_PRICE[code]?.[usd]; if (fixed !== undefined) return fixed;
   const v = usd * CURRENCIES[code].rate;
   return v < 100 ? Math.round(v * 10) / 10 : Math.round(v);
 }
@@ -37,6 +41,8 @@ export function moneyYear(monthlyUsd: number, code: CurrencyCode): string {
   const v = Math.round(localAmount(monthlyUsd, code) * 10 * 10) / 10;
   return CURRENCIES[code].prefix + v.toLocaleString("en-US", { maximumFractionDigits: 1 });
 }
-export const rateNote = (code: CurrencyCode) => code === "USD" ? "" : CURRENCIES[code].fixed
+export const rateNote = (code: CurrencyCode) => code === "USD" ? "" : LOCAL_PRICE[code]
+  ? `Prices in ${CURRENCIES[code].label}s are fixed. Pay locally by InstaPay, wallet or bank transfer.`
+  : CURRENCIES[code].fixed
   ? `Shown in ${CURRENCIES[code].label} at the fixed rate of ${CURRENCIES[code].rate} to the US dollar.`
   : `Shown in ${CURRENCIES[code].label} at about ${CURRENCIES[code].rate} to the US dollar. Your invoice confirms the exact amount.`;

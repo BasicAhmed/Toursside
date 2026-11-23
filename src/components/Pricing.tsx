@@ -8,7 +8,7 @@ import { CURRENCIES, CURRENCY_CODES, money, moneyYear, rateNote, type CurrencyCo
 const LEG: Record<string, string> = { starter: "Up and running", growth: "The complete platform", business: "Larger teams and DMCs" };
 
 export default function Pricing({ currency: initial = "USD", card = false }: { currency?: CurrencyCode; card?: boolean }) {
-  const [billing, setBilling] = useState<Billing>("monthly");
+  const [billing, setBilling] = useState<Billing>("annual"); // Test 1: open on yearly, the better deal
   const [cur, setCur] = useState<CurrencyCode>(initial);
   const yearly = billing === "annual";
   return (
@@ -18,7 +18,7 @@ export default function Pricing({ currency: initial = "USD", card = false }: { c
           <button type="button" aria-pressed={!yearly} onClick={() => setBilling("monthly")}>Monthly</button>
           <button type="button" aria-pressed={yearly} onClick={() => setBilling("annual")}>Yearly</button>
         </div>
-        <span className="bill-save">Two months free when you pay yearly</span>
+        <span className="bill-save">Yearly: two months free, free setup, and a free website redesign on Growth and Business</span>
         <label className="cur-pick"><span>Currency</span><select value={cur} onChange={(e) => setCur(e.target.value as CurrencyCode)}>{CURRENCY_CODES.map((c) => <option key={c} value={c}>{c} · {CURRENCIES[c].label}</option>)}</select></label>
       </div>
       <div className="passes">
